@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { Repository } from 'typeorm';
@@ -35,17 +35,35 @@ export class UserService {
     //Metodo que crea un registro
     async createOne(dto: CreateUserDto){
         const user = this.userRepository.create(dto);
-        return await this.userRepository.save(user);
+        const data = await this.userRepository.save(user);
+        return {
+            msg: "Peticion correcta",
+            data: data
+        }
     }
 
     //Metodo que actualiza un registro especifico
-    updateOne(id: number, dto: UpdateUserDto){
-        return { ok: "updateOne", id: id,body: dto }
+    async updateOne(id: number, dto: UpdateUserDto){
+        const user = await this.userRepository.findOneBy({id: id});
+        
+        if(!user) throw new NotFoundException('El usuario no existe')
+        
+        const updatedUser = Object.assign(user, dto);
+        const data = await this.userRepository.save(updatedUser);
+
+        return {
+            msg: "Peticion correcta",
+            data: data
+        }
     }
 
     //Metodo que elimina un registro especifico
-    deleteOne(id: number){
-        return { ok: "deleteOne", id: id }
+    async deleteOne(id: number){
+        const data = await this.userRepository.delete(id);
+        return {
+            msg: "Peticion correcta",
+            data: data
+        }
     }
     
 }
