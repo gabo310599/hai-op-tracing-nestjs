@@ -2,8 +2,13 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { RequestNoteModule } from './request-note/request-note.module';
+import { ProductionOrderModule } from './production-order/production-order.module';
+import { DepartmentModule } from './department/department.module';
+import { OperatorModule } from './operator/operator.module';
+import { OperatorDepartmentIntersectionModule } from './operator-department-intersection/operator-department-intersection.module';
+import { OrderRequestIntersectionModule } from './order-request-intersection/order-request-intersection.module';
 
 @Module({
   imports: [
@@ -18,7 +23,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       autoLoadEntities: true,
       synchronize: true,
     }),
-    UserModule],
+    RequestNoteModule,
+    ProductionOrderModule,
+    DepartmentModule,
+    OperatorModule,
+    OperatorDepartmentIntersectionModule,
+    OrderRequestIntersectionModule],
   controllers: [AppController],
   providers: [AppService],
 })
