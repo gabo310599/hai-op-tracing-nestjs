@@ -23,7 +23,12 @@ export class OperatorDepartmentIntersectionService {
 
     //Metodo que retorna todos los registros
     async getAll() {
-        const data = await this.operatorDepartmentIntersectionRepository.find();
+        const data = await this.operatorDepartmentIntersectionRepository.find({
+            relations:{
+                operator: true,
+                department: true
+            }
+        });
         return {
             msg: 'Peticion correcta',
             data: data,
@@ -32,7 +37,15 @@ export class OperatorDepartmentIntersectionService {
 
     //Metodo que retorna un registro especifico
     async getOne(id: string) {
-        const data = await this.operatorDepartmentIntersectionRepository.findOneBy({ id: id });
+        const data = await this.operatorDepartmentIntersectionRepository.findOne({ 
+            where:{
+                id: id
+            },
+            relations:{
+                operator: true,
+                department: true
+            } 
+        });
 
         if (!data) throw new NotFoundException('El registro no existe');
 

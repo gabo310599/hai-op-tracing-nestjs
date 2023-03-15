@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Process } from 'src/process/entities/process.entity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity('operators')
 export class Operator{
@@ -12,5 +13,8 @@ export class Operator{
 
     @Column({type: 'varchar', length: 30})
     last_name: string;
+
+    @OneToMany(() => Process, (process) => process.operator)
+    process: Process[];
 
 }

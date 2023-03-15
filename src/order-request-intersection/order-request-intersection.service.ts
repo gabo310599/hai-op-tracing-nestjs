@@ -23,7 +23,12 @@ export class OrderRequestIntersectionService {
 
     //Metodo que retorna todos los registros
     async getAll() {
-        const data = await this.orderRequestIntersectionRepository.find();
+        const data = await this.orderRequestIntersectionRepository.find({
+            relations:{
+                order: true,
+                request: true
+            }
+        });
         return {
             msg: 'Peticion correcta',
             data: data,
@@ -32,7 +37,15 @@ export class OrderRequestIntersectionService {
 
     //Metodo que retorna un registro especifico
     async getOne(id: string) {
-        const data = await this.orderRequestIntersectionRepository.findOneBy({ id: id });
+        const data = await this.orderRequestIntersectionRepository.findOne({ 
+            where:{
+                id: id
+            },
+            relations:{
+                order: true,
+                request: true
+            }
+        });
 
         if (!data) throw new NotFoundException('El registro no existe');
 

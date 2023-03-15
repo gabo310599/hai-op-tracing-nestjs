@@ -1,5 +1,7 @@
 /* eslint-disable prettier/prettier */
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Machine } from 'src/machine/entities/machine.entity';
+import { Process } from 'src/process/entities/process.entity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity('departments')
 export class Department{
@@ -9,5 +11,11 @@ export class Department{
 
     @Column({type: 'varchar', length: 30})
     name: string;
+
+    @OneToMany(() => Machine, (machine) => machine.department)
+    machine: Machine[];
+
+    @OneToMany(() => Process, (process) => process.department)
+    process: Process[];
 
 }

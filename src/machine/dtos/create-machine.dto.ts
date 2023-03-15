@@ -1,18 +1,18 @@
 /* eslint-disable prettier/prettier */
 import { IsString } from 'class-validator';
 
-export class CreateRequestNoteDto{
+export class CreateMachineDto{
 
     @IsString()
-    serial: string;
+    brand: string;
 
     @IsString()
-    description: string;
+    model: string;
 
     @IsString()
-    code: string;
+    name: string;
 
     @IsString()
-    characters: string;
+    department_id: string;
     
 }

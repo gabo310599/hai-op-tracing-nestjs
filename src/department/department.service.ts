@@ -16,7 +16,11 @@ export class DepartmentService {
 
     //Metodo que retorna todos los registros
     async getAll() {
-        const data = await this.departmentRepository.find();
+        const data = await this.departmentRepository.find({
+            relations: {
+                machine: true
+            }
+        });
         return {
             msg: 'Peticion correcta',
             data: data,

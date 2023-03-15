@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Process } from 'src/process/entities/process.entity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity('request-notes')
 export class RequestNote{
@@ -16,4 +17,9 @@ export class RequestNote{
     @Column({type: 'varchar', length: 20})
     code: string;
     
+    @Column({type: 'varchar', length: 10})
+    characters: string;
+
+    @OneToMany(() => Process, (process) => process.request)
+    process: Process[];
 }
