@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
+import { OperatorDepartmentUnion } from 'src/operator-department-union/entities/operator-department-union.entity';
 import { Process } from 'src/process/entities/process.entity';
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany} from 'typeorm';
 
 @Entity('operators')
 export class Operator{
@@ -16,5 +17,8 @@ export class Operator{
 
     @OneToMany(() => Process, (process) => process.operator)
     process: Process[];
+
+    @OneToMany(() => OperatorDepartmentUnion, (operatorDepartmentUnion) => operatorDepartmentUnion.operator)
+    operatorDepartmentUnion: OperatorDepartmentUnion;
 
 }

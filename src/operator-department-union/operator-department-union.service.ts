@@ -1,0 +1,74 @@
+/* eslint-disable prettier/prettier */
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Department } from 'src/department/entities/department.entity';
+import { Operator } from 'src/operator/entities/operator.entity';
+import { Repository } from 'typeorm';
+import { CreateOperatorDepartmentUnionDto } from './dtos/create-operator-department-union.dto';
+import { OperatorDepartmentUnion } from './entities/operator-department-union.entity';
+
+@Injectable()
+export class OperatorDepartmentUnionService {
+
+    constructor(
+
+        @InjectRepository(OperatorDepartmentUnion)
+        private operatorDepartmentUnionRepository: Repository<OperatorDepartmentUnion>,
+
+        @InjectRepository(Operator)
+        private operatorRepository: Repository<Operator>,
+
+        @InjectRepository(Department)
+        private departmentRepository: Repository<Department>
+
+    ) {}
+
+    //Metodo que retorna todos los registros
+    async getAll() {
+        const data = await this.operatorDepartmentUnionRepository.find();
+        return {
+            msg: 'Peticion correcta',
+            data: data,
+        };
+    }
+
+    //Metodo que retorna un registro especifico
+    async getOne(id: string) {
+        const data = await this.operatorDepartmentUnionRepository.findOneBy({ id: id });
+
+        if (!data) throw new NotFoundException('El registro no existe');
+
+        return {
+            msg: 'Peticion correcta',
+            data: data,
+        };
+    }
+
+    //Metodo que crea un registro
+    async createOne(dto: CreateOperatorDepartmentUnionDto) {
+
+        const operator = await this.operatorRepository.findOneBy({id: dto.operator_id});
+        const department = await this.departmentRepository.findOneBy({id: dto.department_id});
+
+        if (!operator) throw new NotFoundException('El registro de operador no existe');
+        if (!department) throw new NotFoundException('El registro de departamento no existe');
+
+        const union = new OperatorDepartmentUnion(operator, department);
+        const data = await this.operatorDepartmentUnionRepository.save(union);
+
+        return {
+            msg: 'Peticion correcta',
+            data: data,
+        };
+    }
+
+    //Metodo que elimina un registro especifico
+    async deleteOne(id: string){
+        const data = await this.operatorDepartmentUnionRepository.delete(id);
+    
+        return {
+            msg: "Peticion correcta",
+            data: data
+        }
+    }
+}

@@ -1,26 +1,22 @@
 /* eslint-disable prettier/prettier */
 import { Department } from 'src/department/entities/department.entity';
 import { Operator } from 'src/operator/entities/operator.entity';
-import { Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, ManyToOne} from 'typeorm';
 
-@Entity('operator-department-intersection')
-export class OperatorDepartmentIntersection{
+@Entity('operators-departments-union')
+export class OperatorDepartmentUnion{
 
     constructor(operator: Operator, department: Department){
-        this.operator = operator;
         this.department = department;
+        this.operator = operator;
     }
 
     @PrimaryGeneratedColumn("uuid")
     id: string;
 
-    @OneToOne(() => Operator)
-    @JoinColumn()
+    @ManyToOne(() => Operator, (operator) => operator.operatorDepartmentUnion)
     operator: Operator;
 
-    @OneToOne(() => Department)
-    @JoinColumn()
+    @ManyToOne(() => Department, (department) => department.operatorDepartmentUnion)
     department: Department;
-
-    
 }
