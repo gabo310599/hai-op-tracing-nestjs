@@ -1,0 +1,140 @@
+/* eslint-disable prettier/prettier */
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Department } from 'src/department/entities/department.entity';
+import { Machine } from 'src/machine/entities/machine.entity';
+import { Operator } from 'src/operator/entities/operator.entity';
+import { RequestNote } from 'src/request-note/entities/request-note.entity';
+import { Repository } from 'typeorm';
+import { CreateProcessDto } from './dtos/create-process.dto';
+import { UpdateProcessDto } from './dtos/update-process.dto';
+import { Process } from './entities/process.entity';
+
+@Injectable()
+export class ProcessService {
+
+    constructor(
+
+        @InjectRepository(Process)
+        private processRepository: Repository<Process>,
+
+        @InjectRepository(RequestNote)
+        private requestRepository: Repository<RequestNote>,
+
+        @InjectRepository(Department)
+        private departmentRepository: Repository<Department>,
+
+        @InjectRepository(Operator)
+        private operatorRepository: Repository<Operator>,
+
+        @InjectRepository(Machine)
+        private machineRepository: Repository<Machine>
+
+    ) {}
+
+    //Metodo que retorna todos los registros
+    async getAll(){
+        
+        const data = await this.processRepository.find({
+            relations:{
+                request: true,
+                department: true,
+                operator: true,
+                machine: true
+            }
+        });
+
+        return {
+            msg: 'Peticion correcta',
+            data: data
+        };
+    }
+
+    //Metodo que retorna un registro especifico
+    async getOne(id: string) {
+        const data = await this.processRepository.findOne({ 
+            where:{
+                id: id 
+            },
+            relations:{
+                request: true,
+                department: true,
+                operator: true,
+                machine: true
+            }
+        });
+
+        if (!data) throw new NotFoundException('El registro no existe');
+
+        return {
+            msg: 'Peticion correcta',
+            data: data,
+        };
+    }
+
+    //Metodo que crea un registro
+    async createOne(dto: CreateProcessDto){
+     
+        const request = await this.requestRepository.findOneBy({id: dto.request_id})
+        const department = await this.departmentRepository.findOneBy({id: dto.department_id});
+        const operator = await this.operatorRepository.findOneBy({id: dto.operator_id});
+        const machine = await this.machineRepository.findOneBy({id: dto.machine_id});
+
+        if(!request) throw new NotFoundException("El registro de pedido no existe"); 
+        if(!department) throw new NotFoundException("El registro de departamento no existe");
+        if(!operator) throw new NotFoundException("El registro de operador no existe");
+
+        const process = new Process();
+        process.request = request;
+        process.department = department;
+        process.operator = operator;
+        process.date_in = new Date(dto.date_in);
+        
+        if(dto.machine_id)
+            process.machine = machine;
+        
+        const data = await this.processRepository.save(process);
+
+        return {
+            msg: 'Peticion correcta',
+            data: data,
+        };
+    }
+
+    //Metodo que actualiza un registro especifico
+    async updateOne(id: string, dto: UpdateProcessDto) {
+        
+        const process = await this.processRepository.findOneBy({ id: id });
+
+        if (!process) throw new NotFoundException('El registro no existe');
+
+        const updatedProcess = process;
+
+        if(dto.machine_id)
+            updatedProcess.machine = await this.machineRepository.findOneBy({id: dto.machine_id});
+
+        if(dto.date_out)
+            updatedProcess.date_out = new Date(dto.date_out);
+
+        if(dto.time_in)
+            updatedProcess.time_in = new Date(dto.time_in);
+
+        const data = await this.processRepository.save(updatedProcess);
+
+        return {
+            msg: 'Peticion correcta',
+            data: data,
+        };
+    }
+
+    //Metodo que elimina un registro especifico
+    async deleteOne(id: string){
+        const data = await this.processRepository.delete(id);
+    
+        return {
+            msg: "Peticion correcta",
+            data: data
+        }
+    }
+
+}

@@ -23,4 +23,13 @@ export class Process{
     @ManyToOne(() => Machine, (machine) => machine.process)
     machine: Machine;
 
+    @Column({type:'datetime', nullable: true})
+    date_in: Date;
+
+    @Column({type:'datetime', nullable: true})
+    date_out: Date;
+
+    @Column({type:'datetime', nullable: true})
+    time_in: Date;
+
 }

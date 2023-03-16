@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { IsString } from 'class-validator';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateMachineDto{
 
@@ -14,5 +14,17 @@ export class CreateMachineDto{
 
     @IsString()
     department_id: string;
+
+    @IsOptional()
+    @IsNumber()
+    total_white_hours: number;
+
+    @IsOptional()
+    @IsNumber()
+    total_black_hours: number;
+
+    @IsOptional()
+    @IsNumber()
+    total_points: number;
     
 }

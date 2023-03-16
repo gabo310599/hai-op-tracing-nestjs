@@ -1,8 +1,8 @@
 /* eslint-disable prettier/prettier */
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger/dist/decorators';
-import { UpdateDepartmentDto } from 'src/department/dtos/update-department.dto';
 import { CreateMachineDto } from './dtos/create-machine.dto';
+import { UpdateMachineDto } from './dtos/update-machine.dto';
 import { MachineService } from './machine.service';
 
 @ApiTags('Machine Module')
@@ -31,7 +31,7 @@ export class MachineController {
 
     //Endpoint que actualiza un registro
     @Put(':id')
-    updateOne( @Param('id') id: string, @Body() dto: UpdateDepartmentDto ){
+    updateOne( @Param('id') id: string, @Body() dto: UpdateMachineDto ){
         return this.machineService.updateOne(id, dto);
     }
 

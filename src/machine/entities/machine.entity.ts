@@ -22,13 +22,13 @@ export class Machine{
     @Column({type: 'varchar', length: 50})
     name: string;
 
-    @Column({type: 'int', nullable: true})
+    @Column({type: 'int', default: 0})
     total_points: number;
 
-    @Column({type: 'decimal', precision: 10, scale: 2, nullable: true})
+    @Column({type: 'decimal', default: 0})
     total_white_hours: number;
 
-    @Column({type: 'decimal', precision: 10, scale: 2, nullable: true})
+    @Column({type: 'decimal', default: 0})
     total_black_hours: number;
 
     @ManyToOne(() => Department, (department) => department.machine)
