@@ -113,11 +113,11 @@ export class ProcessService {
         if(dto.machine_id)
             updatedProcess.machine = await this.machineRepository.findOneBy({id: dto.machine_id});
 
-        if(dto.date_out)
+        if(dto.date_out){
             updatedProcess.date_out = new Date(dto.date_out);
-
-        if(dto.time_in)
-            updatedProcess.time_in = new Date(dto.time_in);
+            const difference = updatedProcess.date_out.getTime() - process.date_in.getTime();
+            updatedProcess.hours_in = difference / 1000 / 60 / 60; 
+        }
 
         const data = await this.processRepository.save(updatedProcess);
 

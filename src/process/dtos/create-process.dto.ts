@@ -22,9 +22,5 @@ export class CreateProcessDto{
     @IsOptional()
     @IsString()
     date_out: string;
-
-    @IsOptional()
-    @IsString()
-    time_in: string;
     
 }

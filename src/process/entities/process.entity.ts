@@ -28,8 +28,8 @@ export class Process{
 
     @Column({type:'datetime', nullable: true})
     date_out: Date;
-
-    @Column({type:'datetime', nullable: true})
-    time_in: Date;
+ 
+    @Column({type:'decimal', precision: 10, scale: 2, default: 0})
+    hours_in: number;
 
 }
