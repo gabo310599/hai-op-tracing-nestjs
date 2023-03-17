@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { Process } from 'src/process/entities/process.entity';
+import { ProductionOrder } from 'src/production-order/entities/production-order.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity('request-notes')
@@ -22,4 +23,8 @@ export class RequestNote{
 
     @OneToMany(() => Process, (process) => process.request)
     process: Process[];
+
+    @OneToMany(() => ProductionOrder, (order) => order.request)
+    order: ProductionOrder[];
+
 }

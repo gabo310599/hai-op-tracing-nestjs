@@ -13,6 +13,9 @@ export class Department{
     @Column({type: 'varchar', length: 30})
     name: string;
 
+    @Column({type: 'decimal', precision: 10, scale: 2, default: 0})
+    days_time_limit: number;
+
     @OneToMany(() => Machine, (machine) => machine.department)
     machine: Machine[];
 
@@ -20,6 +23,6 @@ export class Department{
     process: Process[];
 
     @OneToMany(() => OperatorDepartmentUnion, (operatorDepartmentUnion) => operatorDepartmentUnion.department)
-    operatorDepartmentUnion: OperatorDepartmentUnion;
+    operatorDepartmentUnion: OperatorDepartmentUnion[];
 
 }

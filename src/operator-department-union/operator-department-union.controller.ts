@@ -33,4 +33,16 @@ export class OperatorDepartmentUnionController {
     deleteOne( @Param('id') id: string ){
         return this.operatorDepartmentService.deleteOne(id);
     }
+
+    //Endpoint que regresa todos los operarios de un departamento
+    @Get('operator-by-department/:id')
+    getOperatorsByDepartment( @Param('id') id: string){
+        return this.operatorDepartmentService.getOperatorsByDepartment(id);
+    }
+
+    //Endpoint que regresa todos los departamentos por operario
+    @Get('department-by-operator/:id')
+    getDepartmentsByOperator( @Param('id') id: string){
+        return this.operatorDepartmentService.getDepartmentsByOperator(id);
+    }
 }

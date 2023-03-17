@@ -74,11 +74,18 @@ export class MachineService {
 
     //Metodo que actualiza un registro especifico
     async updateOne(id: string, dto: UpdateMachineDto) {
+        
         const machine = await this.machineRepository.findOneBy({ id: id });
 
-        if (!machine) throw new NotFoundException('El registro no existe');
-
+        if (!machine) throw new NotFoundException('El registro de maquina no existe');
+        
         const updatedMachine = Object.assign(machine, dto);
+
+        if(dto.department_id)
+            updatedMachine.department = await this.departmentRepository.findOneBy({id: dto.department_id});
+        
+        if(!updatedMachine.department && dto.department_id) throw new NotFoundException('El registro de departamento no existe');
+
         const data = await this.machineRepository.save(updatedMachine);
 
         return {

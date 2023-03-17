@@ -25,7 +25,12 @@ export class OperatorDepartmentUnionService {
 
     //Metodo que retorna todos los registros
     async getAll() {
-        const data = await this.operatorDepartmentUnionRepository.find();
+        const data = await this.operatorDepartmentUnionRepository.find({
+            relations:{
+                operator: true,
+                department: true
+            }
+        });
         return {
             msg: 'Peticion correcta',
             data: data,
@@ -34,7 +39,15 @@ export class OperatorDepartmentUnionService {
 
     //Metodo que retorna un registro especifico
     async getOne(id: string) {
-        const data = await this.operatorDepartmentUnionRepository.findOneBy({ id: id });
+        const data = await this.operatorDepartmentUnionRepository.findOne({ 
+            where:{
+                id: id
+            },
+            relations:{
+                operator: true,
+                department: true
+            }
+         });
 
         if (!data) throw new NotFoundException('El registro no existe');
 
@@ -71,4 +84,61 @@ export class OperatorDepartmentUnionService {
             data: data
         }
     }
+
+    //Metodo que regresa todos los operarios de un departamento especifico
+    async getOperatorsByDepartment(id_department: string){
+        
+        const department = await this.departmentRepository.findOneBy({id: id_department});
+
+        if(!department) throw new NotFoundException('El registro de departamento no exite');
+
+        const intersection = await this.operatorDepartmentUnionRepository.find({
+            where:{
+                department: department
+            },
+            relations:{
+                operator: true
+            }
+        });
+
+        const data = [];
+
+        intersection.map(function (record){
+            data.push(record.operator);
+        });
+
+        return {
+            msg: "Peticion correcta",
+            data: data
+        }
+    }
+
+    //Metodo que regresa todos los operarios de un departamento especifico
+    async getDepartmentsByOperator(id_operator: string){
+        
+        const operator = await this.operatorRepository.findOneBy({id: id_operator});
+
+        if(!operator) throw new NotFoundException('El registro de departamento no exite');
+
+        const intersection = await this.operatorDepartmentUnionRepository.find({
+            where:{
+                operator: operator
+            },
+            relations:{
+                department: true
+            }
+        });
+
+        const data = [];
+
+        intersection.map(function (record){
+            data.push(record.department);
+        });
+
+        return {
+            msg: "Peticion correcta",
+            data: data
+        }
+    }
+
 }

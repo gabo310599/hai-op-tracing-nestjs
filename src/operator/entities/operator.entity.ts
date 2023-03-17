@@ -19,6 +19,6 @@ export class Operator{
     process: Process[];
 
     @OneToMany(() => OperatorDepartmentUnion, (operatorDepartmentUnion) => operatorDepartmentUnion.operator)
-    operatorDepartmentUnion: OperatorDepartmentUnion;
+    operatorDepartmentUnion: OperatorDepartmentUnion[];
 
 }

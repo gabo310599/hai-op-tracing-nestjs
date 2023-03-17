@@ -31,7 +31,7 @@ export class Machine{
     @Column({type: 'decimal', default: 0})
     total_black_hours: number;
 
-    @ManyToOne(() => Department, (department) => department.machine)
+    @ManyToOne(() => Department, (department) => department.machine, {nullable: true})
     department: Department;
 
     @OneToMany(() => Process, (process) => process.machine)

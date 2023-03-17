@@ -5,6 +5,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateProductionOrderDto } from './dtos/create-production-order.dto';
 import { UpdateProductionOrderDto } from './dtos/update-production-order.dto';
+import { RequestNote } from 'src/request-note/entities/request-note.entity';
+import { CreateRequestOrderUnionDto } from './dtos/create-request-order-union.dto';
+import { GetOrdersByRequestDto } from './dtos/get-orders-by-request-serial.dto';
 
 @Injectable()
 export class ProductionOrderService {
@@ -12,6 +15,10 @@ export class ProductionOrderService {
     constructor(
         @InjectRepository(ProductionOrder)
         private productionOrderRepository: Repository<ProductionOrder>,
+
+        @InjectRepository(RequestNote)
+        private requestRepository: Repository<RequestNote>
+
     ) {}
 
     //Metodo que retorna todos los registros
@@ -64,6 +71,71 @@ export class ProductionOrderService {
     async deleteOne(id: string){
         const data = await this.productionOrderRepository.delete(id);
     
+        return {
+            msg: "Peticion correcta",
+            data: data
+        }
+    }
+
+    //Metodo que devuelve todas las ordenes asociadas a un serial de pedido
+    async getOrdersByRequestSerial(dto: GetOrdersByRequestDto){
+
+        const requests = await this.requestRepository.find({
+            where:{ 
+                serial: dto.serial
+            }
+        });
+
+        if(!requests) throw new NotFoundException('El serial no esta asociado a ningun pedido');
+
+        const data = await this.productionOrderRepository.find({
+            where:{
+                request: requests
+            }
+        });
+
+        return {
+            msg: "Peticion correcta",
+            data: data
+        }
+    }
+
+    //Metodo que crea la union entre un pedido y una orden
+    async createRequestOrderUnion(dto: CreateRequestOrderUnionDto){
+
+        const request = await this.requestRepository.findOneBy({id: dto.request_id});
+        const order = await this.productionOrderRepository.findOneBy({id: dto.order_id});
+
+        if(!request) throw new NotFoundException('El registro de pedido no existe');
+        if(!order) throw new NotFoundException('El registro de orden no existe');
+
+        order.request = request;
+        const data = await this.productionOrderRepository.save(order);
+
+        return {
+            msg: "Peticion correcta",
+            data: data
+        }
+    }
+
+    //Metodo que retorna las ordenes asociada a un pedido (serial + letra)
+    async getOrdersByRequest(dto: GetOrdersByRequestDto){
+
+        const request = await this.requestRepository.findOne({
+            where:{
+                serial: dto.serial,
+                characters: dto.characters
+            }
+        });
+
+        if(!request) throw new NotFoundException('El registro de pedido no existe')
+
+        const data = await this.productionOrderRepository.find({
+            where:{
+                request: request
+            }
+        });
+
         return {
             msg: "Peticion correcta",
             data: data
