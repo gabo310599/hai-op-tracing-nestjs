@@ -16,6 +16,10 @@ export class CreateProcessDto{
     @IsString()
     machine_id: string;
 
+    @IsOptional()
+    @IsString()
+    order_id: string;
+
     @IsString()
     date_in: string;
 

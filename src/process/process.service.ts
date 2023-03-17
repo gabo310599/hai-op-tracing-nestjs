@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Department } from 'src/department/entities/department.entity';
 import { Machine } from 'src/machine/entities/machine.entity';
 import { Operator } from 'src/operator/entities/operator.entity';
+import { ProductionOrder } from 'src/production-order/entities/production-order.entity';
 import { RequestNote } from 'src/request-note/entities/request-note.entity';
 import { Repository } from 'typeorm';
 import { CreateProcessDto } from './dtos/create-process.dto';
@@ -28,7 +29,10 @@ export class ProcessService {
         private operatorRepository: Repository<Operator>,
 
         @InjectRepository(Machine)
-        private machineRepository: Repository<Machine>
+        private machineRepository: Repository<Machine>,
+
+        @InjectRepository(ProductionOrder)
+        private orderRepository: Repository<ProductionOrder>
 
     ) {}
 
@@ -40,13 +44,14 @@ export class ProcessService {
                 request: true,
                 department: true,
                 operator: true,
-                machine: true
+                machine: true,
+                order: true
             }
         });
 
         return {
             msg: 'Peticion correcta',
-            data: data
+            data: data,
         };
     }
 
@@ -60,7 +65,8 @@ export class ProcessService {
                 request: true,
                 department: true,
                 operator: true,
-                machine: true
+                machine: true,
+                order: true
             }
         });
 
@@ -79,6 +85,7 @@ export class ProcessService {
         const department = await this.departmentRepository.findOneBy({id: dto.department_id});
         const operator = await this.operatorRepository.findOneBy({id: dto.operator_id});
         const machine = await this.machineRepository.findOneBy({id: dto.machine_id});
+        const order = await this.orderRepository.findOneBy({id: dto.order_id});
 
         if(!request) throw new NotFoundException("El registro de pedido no existe"); 
         if(!department) throw new NotFoundException("El registro de departamento no existe");
@@ -92,6 +99,9 @@ export class ProcessService {
         
         if(dto.machine_id)
             process.machine = machine;
+        
+        if(dto.order_id)
+            process.order = order;
         
         const data = await this.processRepository.save(process);
 
@@ -112,6 +122,9 @@ export class ProcessService {
 
         if(dto.machine_id)
             updatedProcess.machine = await this.machineRepository.findOneBy({id: dto.machine_id});
+        
+        if(dto.order_id)
+            updatedProcess.order = await this.orderRepository.findOneBy({id: dto.order_id});
 
         if(dto.date_out){
             updatedProcess.date_out = new Date(dto.date_out);
