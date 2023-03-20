@@ -5,7 +5,6 @@ import { RequestNote } from './entities/request-note.entity';
 import { Repository } from 'typeorm';
 import { CreateRequestNoteDto } from './dtos/create-request-note.dto';
 import { UpdateRequestNoteDto } from './dtos/update-request-note.dto';
-import { ProductionOrder } from 'src/production-order/entities/production-order.entity';
 
 @Injectable()
 export class RequestNoteService {
@@ -13,10 +12,7 @@ export class RequestNoteService {
     constructor(
 
         @InjectRepository(RequestNote)
-        private requestNoteRepository: Repository<RequestNote>,
-
-        @InjectRepository(ProductionOrder)
-        private orderRepository: Repository<ProductionOrder>
+        private readonly requestNoteRepository: Repository<RequestNote>,
 
     ) {}
 

@@ -8,6 +8,6 @@ export class GetOrdersByRequestDto{
 
     @IsOptional()
     @IsString()
-    characters: string
+    characters: string;
 
 }

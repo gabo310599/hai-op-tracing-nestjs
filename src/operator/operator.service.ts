@@ -11,7 +11,7 @@ export class OperatorService {
 
     constructor(
         @InjectRepository(Operator)
-        private operatorRepository: Repository<Operator>,
+        private readonly operatorRepository: Repository<Operator>,
     ) {}
 
     //Metodo que retorna todos los registros

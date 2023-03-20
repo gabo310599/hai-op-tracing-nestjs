@@ -13,10 +13,10 @@ export class OperatorDepartmentUnionService {
     constructor(
 
         @InjectRepository(OperatorDepartmentUnion)
-        private operatorDepartmentUnionRepository: Repository<OperatorDepartmentUnion>,
+        private readonly operatorDepartmentUnionRepository: Repository<OperatorDepartmentUnion>,
 
         @InjectRepository(Operator)
-        private operatorRepository: Repository<Operator>,
+        private readonly operatorRepository: Repository<Operator>,
 
         @InjectRepository(Department)
         private departmentRepository: Repository<Department>

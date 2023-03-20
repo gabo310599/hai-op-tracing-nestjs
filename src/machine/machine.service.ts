@@ -12,10 +12,10 @@ export class MachineService {
 
     constructor(
         @InjectRepository(Machine)
-        private machineRepository: Repository<Machine>,
+        private readonly machineRepository: Repository<Machine>,
 
         @InjectRepository(Department)
-        private departmentRepository: Repository<Department>
+        private readonly departmentRepository: Repository<Department>
     ) {}
 
     //Metodo que retorna todos los registros

@@ -14,10 +14,10 @@ export class ProductionOrderService {
 
     constructor(
         @InjectRepository(ProductionOrder)
-        private productionOrderRepository: Repository<ProductionOrder>,
+        private readonly productionOrderRepository: Repository<ProductionOrder>,
 
         @InjectRepository(RequestNote)
-        private requestRepository: Repository<RequestNote>
+        private readonly requestRepository: Repository<RequestNote>
 
     ) {}
 

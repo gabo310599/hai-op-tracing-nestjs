@@ -11,7 +11,7 @@ export class DepartmentService {
 
     constructor(
         @InjectRepository(Department)
-        private departmentRepository: Repository<Department>,
+        private readonly departmentRepository: Repository<Department>,
     ) {}
 
     //Metodo que retorna todos los registros

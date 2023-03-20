@@ -17,22 +17,22 @@ export class ProcessService {
     constructor(
 
         @InjectRepository(Process)
-        private processRepository: Repository<Process>,
+        private readonly processRepository: Repository<Process>,
 
         @InjectRepository(RequestNote)
-        private requestRepository: Repository<RequestNote>,
+        private readonly requestRepository: Repository<RequestNote>,
 
         @InjectRepository(Department)
-        private departmentRepository: Repository<Department>,
+        private readonly departmentRepository: Repository<Department>,
 
         @InjectRepository(Operator)
-        private operatorRepository: Repository<Operator>,
+        private readonly operatorRepository: Repository<Operator>,
 
         @InjectRepository(Machine)
-        private machineRepository: Repository<Machine>,
+        private readonly machineRepository: Repository<Machine>,
 
         @InjectRepository(ProductionOrder)
-        private orderRepository: Repository<ProductionOrder>
+        private readonly orderRepository: Repository<ProductionOrder>
 
     ) {}
 
