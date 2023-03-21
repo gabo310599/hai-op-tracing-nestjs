@@ -1,10 +1,11 @@
 /* eslint-disable prettier/prettier */
-import { Controller, Post, Get, UseGuards } from '@nestjs/common';
+import { Controller, Post, Get, UseGuards, Body } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger/dist/decorators';
 import { Auth } from 'src/common/decorators/auth.decorator';
 import { UserDecorator } from 'src/common/decorators/user.decorator';
 import { User } from 'src/user/entities/user.entity';
 import { AuthService } from './auth.service';
+import { LoginDto } from './dtos/login.dto';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 
 @ApiTags('Auth Module')
@@ -17,7 +18,8 @@ export class AuthController {
 
     @UseGuards(LocalAuthGuard)
     @Post('/login')
-    async login( @UserDecorator() user: User){
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    async login( @UserDecorator() user: User, @Body() dto: LoginDto){
 
         const data = await this.authService.login(user);
 

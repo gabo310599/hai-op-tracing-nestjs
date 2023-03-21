@@ -23,6 +23,9 @@ export class User{
     @Column({type: "bool", default: true})
     status: boolean;
 
+    @Column({type: "simple-array", nullable: true})
+    roles: string[];
+
     @CreateDateColumn({type: "timestamp"})
     created_at: Date;
 

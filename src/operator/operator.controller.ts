@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger/dist/decorators';
+import { Auth } from 'src/common/decorators/auth.decorator';
 import { CreateOperatorDto } from './dtos/create-operator.dto';
 import { UpdateOperatorDto } from './dtos/update-operator.dto';
 import { OperatorService } from './operator.service';
@@ -12,30 +13,35 @@ export class OperatorController {
     constructor(private readonly operatorService: OperatorService){}
 
     //Endpoint que retorna todos los registros
+    @Auth()
     @Get()
     async getAll(){
         return await this.operatorService.getAll();
     }
 
     //Endpoint que retornar un solo registro
+    @Auth()
     @Get(':id')
     getOne( @Param('id') id: string ){
         return this.operatorService.getOne(id);
     }
 
     //Endpoint que crea un registro
+    @Auth()
     @Post()
     createOne( @Body() dto: CreateOperatorDto ){
         return this.operatorService.createOne(dto);
     }
 
     //Endpoint que actualiza un registro
+    @Auth()
     @Put(':id')
     updateOne( @Param('id') id: string, @Body() dto: UpdateOperatorDto ){
         return this.operatorService.updateOne(id, dto);
     }
 
     //Endpoint que elimina un registro
+    @Auth()
     @Delete(':id')
     deleteOne( @Param('id') id: string ){
         return this.operatorService.deleteOne(id);

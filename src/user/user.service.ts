@@ -59,7 +59,7 @@ export class UserService {
 
         const userExist = await this.userRepository.findOneBy({ user_name: dto.user_name});
 
-        if(userExist) throw new BadRequestException('El usuario ya existe');
+        if(userExist && dto.user_name) throw new BadRequestException('El usuario ya existe');
 
         const user = await this.userRepository.findOneBy({ id: id });
 

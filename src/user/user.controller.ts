@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger/dist/decorators';
+import { Auth } from 'src/common/decorators/auth.decorator';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { UserService } from './user.service';
@@ -12,12 +13,14 @@ export class UserController {
     constructor( private readonly userService: UserService){}
 
     //Endpoint que retorna todos los registros
+    @Auth()
     @Get()
     async getAll(){
         return await this.userService.getAll();
     }
 
     //Endpoint que retornar un solo registro
+    @Auth()
     @Get(':id')
     getOne( @Param('id') id: string ){
         return this.userService.getOne(id);
@@ -30,12 +33,14 @@ export class UserController {
     }
 
     //Endpoint que actualiza un registro
+    @Auth()
     @Put(':id')
     updateOne( @Param('id') id: string, @Body() dto: UpdateUserDto ){
         return this.userService.updateOne(id, dto);
     }
 
     //Endpoint que elimina un registro
+    @Auth()
     @Delete(':id')
     deleteOne( @Param('id') id: string ){
         return this.userService.deleteOne(id);

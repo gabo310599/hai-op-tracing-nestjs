@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 
-import { IsString, MaxLength, MinLength } from "class-validator";
+import { IsArray, IsEnum, IsOptional, IsString, MaxLength, MinLength } from "class-validator";
+import { AppRoles } from "src/app.roles";
 
 
 export class CreateUserDto{
@@ -22,4 +23,11 @@ export class CreateUserDto{
     @MaxLength(150)
     password: string;
     
+    @IsOptional()
+    @IsArray()
+    @IsEnum(AppRoles, {
+        each: true,
+        message: `must be a valid role value`
+    })
+    roles: string[];
 }
