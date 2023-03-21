@@ -12,7 +12,7 @@ import { ProcessModule } from './process/process.module';
 import { OperatorDepartmentUnionModule } from './operator-department-union/operator-department-union.module';
 import { UserModule } from './user/user.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { DATABASE_HOST, DATABASE_NAME, DATABASE_PASSWORD, DATABASE_PORT, DATABASE_USERNAME } from './config/constants';
+import { DATABASE_HOST, DATABASE_NAME, DATABASE_PASSWORD, DATABASE_PORT, DATABASE_USERNAME } from './common/config/constants';
 import { AuthModule } from './auth/auth.module';
 
 @Module({

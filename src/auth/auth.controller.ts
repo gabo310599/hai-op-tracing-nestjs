@@ -1,21 +1,51 @@
 /* eslint-disable prettier/prettier */
-import { Controller, Post, Get, UseGuards, Req } from '@nestjs/common';
+import { Controller, Post, Get, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger/dist/decorators';
+import { Auth } from 'src/common/decorators/auth.decorator';
+import { UserDecorator } from 'src/common/decorators/user.decorator';
+import { User } from 'src/user/entities/user.entity';
+import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 
 @ApiTags('Auth Module')
 @Controller('auth')
 export class AuthController {
 
+    constructor(
+        private readonly authService: AuthService
+    ){}
+
     @UseGuards(LocalAuthGuard)
     @Post('/login')
-    login( @Req() req: any){
-        return req.user;
+    async login( @UserDecorator() user: User){
+
+        const data = await this.authService.login(user);
+
+        return {
+            msg: "Login exitoso",
+            data
+        };
     }
 
+    @Auth()
     @Get('/profile')
-    profile(){
-        return "Estos son tus datos";
+    profile(@UserDecorator() user: User){
+        return {
+            msg: "Petición correcta",
+            user
+        };
+    }
+
+    @Auth()
+    @Get('/refresh')
+    async refresh( @UserDecorator() user: User){
+
+        const data = await this.authService.login(user);
+
+        return {
+            msg: "Refresh exitoso",
+            data
+        };
     }
 
 }

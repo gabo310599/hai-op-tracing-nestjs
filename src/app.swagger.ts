@@ -5,6 +5,7 @@ import { INestApplication } from '@nestjs/common';
 export const initSwagger = (app: INestApplication) => {
     const swaggerConfig = new DocumentBuilder()
         .setTitle('Hai OP Tracing API')
+        .addBearerAuth()
         .setDescription(
             'Esta es una API creada con NestJS con CRUD para la empresa textil Hai.'
         )
