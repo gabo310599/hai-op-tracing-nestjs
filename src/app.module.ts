@@ -12,7 +12,13 @@ import { ProcessModule } from './process/process.module';
 import { OperatorDepartmentUnionModule } from './operator-department-union/operator-department-union.module';
 import { UserModule } from './user/user.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { DATABASE_HOST, DATABASE_NAME, DATABASE_PASSWORD, DATABASE_PORT, DATABASE_USERNAME } from './common/config/constants';
+import {
+  DATABASE_HOST,
+  DATABASE_NAME,
+  DATABASE_PASSWORD,
+  DATABASE_PORT,
+  DATABASE_USERNAME,
+} from './common/config/constants';
 import { AuthModule } from './auth/auth.module';
 import { AccessControlModule } from 'nest-access-control';
 import { roles } from './app.roles';
@@ -32,12 +38,12 @@ import { roles } from './app.roles';
         autoLoadEntities: true,
         synchronize: true,
         logging: true,
-        logger: 'file'
-      })
+        logger: 'file',
+      }),
     }),
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env'
+      envFilePath: '.env',
     }),
     AccessControlModule.forRoles(roles),
     RequestNoteModule,
@@ -48,7 +54,8 @@ import { roles } from './app.roles';
     ProcessModule,
     OperatorDepartmentUnionModule,
     UserModule,
-    AuthModule],
+    AuthModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

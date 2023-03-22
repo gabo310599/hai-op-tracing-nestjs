@@ -56,6 +56,7 @@ roles
     .updateOwn([AppResources.AUTH])
     .deleteOwn([AppResources.AUTH])
     .readOwn([AppResources.USER])
+    .createOwn([AppResources.USER])
     .updateOwn([AppResources.USER])
     .deleteOwn([AppResources.USER])
 
@@ -94,6 +95,7 @@ roles
     .updateAny([AppResources.AUTH])
     .deleteAny([AppResources.AUTH])
     .readAny([AppResources.USER])
+    .createAny([AppResources.USER])
     .updateAny([AppResources.USER])
     .deleteAny([AppResources.USER])
 

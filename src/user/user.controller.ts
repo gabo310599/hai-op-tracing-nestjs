@@ -1,7 +1,10 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger/dist/decorators';
+import { AppRoles } from 'src/app.roles';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { Auth } from 'src/common/decorators/auth.decorator';
+import { HasRoles } from 'src/common/decorators/role.decorator';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { UserService } from './user.service';
@@ -27,6 +30,9 @@ export class UserController {
     }
 
     //Endpoint que crea un registro
+    @HasRoles(AppRoles.ADMIN)
+    @UseGuards(RolesGuard)
+    @Auth()
     @Post()
     createOne( @Body() dto: CreateUserDto ){
         return this.userService.createOne(dto);
@@ -45,4 +51,5 @@ export class UserController {
     deleteOne( @Param('id') id: string ){
         return this.userService.deleteOne(id);
     }
+
 }

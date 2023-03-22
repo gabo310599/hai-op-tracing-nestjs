@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { hash } from 'bcryptjs';
+import { AppRoles } from 'src/app.roles';
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, BeforeInsert, BeforeUpdate } from 'typeorm';
 
 @Entity('users')
@@ -20,11 +21,11 @@ export class User{
     @Column({type: 'varchar', length: 150, nullable: false, select: false})
     password: string;
 
-    @Column({type: "bool", default: true})
+    @Column({type: "bool", default: false})
     status: boolean;
 
     @Column({type: "simple-array", nullable: true})
-    roles: string[];
+    roles: AppRoles[];
 
     @CreateDateColumn({type: "timestamp"})
     created_at: Date;

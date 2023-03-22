@@ -29,5 +29,5 @@ export class CreateUserDto{
         each: true,
         message: `must be a valid role value`
     })
-    roles: string[];
+    roles: AppRoles[];
 }

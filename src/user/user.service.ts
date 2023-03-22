@@ -57,9 +57,12 @@ export class UserService {
     //Metodo que actualiza un registro especifico
     async updateOne(id: string, dto: UpdateUserDto) {
 
+        const adminUser = await this.userRepository.findOneBy({user_name: 'admin'});
         const userExist = await this.userRepository.findOneBy({ user_name: dto.user_name});
 
         if(userExist && dto.user_name) throw new BadRequestException('El usuario ya existe');
+
+        if(adminUser.id === id) throw new BadRequestException('El usuario admin no se puede actualizar.');
 
         const user = await this.userRepository.findOneBy({ id: id });
 
@@ -76,8 +79,14 @@ export class UserService {
 
     //Metodo que elimina un registro especifico
     async deleteOne(id: string){
+
+        const adminUser = await this.userRepository.findOneBy({user_name: 'admin'});
+
+        if(adminUser.id === id) throw new BadRequestException('El usuario admin no se puede eliminar.');
+        
         const data = await this.userRepository.delete(id);
     
+
         return {
             msg: "Peticion correcta",
             data: data
