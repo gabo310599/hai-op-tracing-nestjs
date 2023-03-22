@@ -9,7 +9,7 @@ import { SERVER_PORT } from './common/config/constants';
 
 async function bootstrap() {
   const logger = new Logger();
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {cors: true});
   const config = app.get(ConfigService);
   initSwagger(app);
 

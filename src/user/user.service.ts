@@ -83,7 +83,7 @@ export class UserService {
         const adminUser = await this.userRepository.findOneBy({user_name: 'admin'});
 
         if(adminUser.id === id) throw new BadRequestException('El usuario admin no se puede eliminar.');
-        
+
         const data = await this.userRepository.delete(id);
     
 
