@@ -1,7 +1,8 @@
 /* eslint-disable prettier/prettier */
 import { hash } from 'bcryptjs';
 import { AppRoles } from 'src/app.roles';
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, BeforeInsert, BeforeUpdate } from 'typeorm';
+import { Log } from 'src/log/entities/log.entity';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, BeforeInsert, BeforeUpdate, OneToMany } from 'typeorm';
 
 @Entity('users')
 export class User{
@@ -29,6 +30,9 @@ export class User{
 
     @CreateDateColumn({type: "timestamp"})
     created_at: Date;
+
+    @OneToMany(() => Log, (log) => log.user )
+    log: Log[];
 
     @BeforeInsert()
     @BeforeUpdate()

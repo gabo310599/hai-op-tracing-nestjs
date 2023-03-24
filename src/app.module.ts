@@ -22,6 +22,7 @@ import {
 import { AuthModule } from './auth/auth.module';
 import { AccessControlModule } from 'nest-access-control';
 import { roles } from './app.roles';
+import { LogModule } from './log/log.module';
 
 @Module({
   imports: [
@@ -55,6 +56,7 @@ import { roles } from './app.roles';
     OperatorDepartmentUnionModule,
     UserModule,
     AuthModule,
+    LogModule,
   ],
   controllers: [AppController],
   providers: [AppService],
