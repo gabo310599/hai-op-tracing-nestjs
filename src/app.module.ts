@@ -22,13 +22,14 @@ import {
 import { AuthModule } from './auth/auth.module';
 import { AccessControlModule } from 'nest-access-control';
 import { roles } from './app.roles';
+import { LogModule } from './log/log.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
-        type: 'mysql',
+        type: 'postgres',
         host: config.get<string>(DATABASE_HOST),
         port: parseInt(config.get<string>(DATABASE_PORT), 10),
         username: config.get<string>(DATABASE_USERNAME),
@@ -55,6 +56,7 @@ import { roles } from './app.roles';
     OperatorDepartmentUnionModule,
     UserModule,
     AuthModule,
+    LogModule,
   ],
   controllers: [AppController],
   providers: [AppService],

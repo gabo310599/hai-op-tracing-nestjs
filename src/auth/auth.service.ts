@@ -3,7 +3,6 @@ import { Injectable } from '@nestjs/common';
 import { UserService } from 'src/user/user.service';
 import { compare} from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt/dist';
-import { User } from 'src/user/entities/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -28,10 +27,17 @@ export class AuthService {
     }
 
     //Metodo de login
-    async login(user: User){
+    async login(user: any){
 
-        const {id} = user;
-        const payload = { sub: id}
+        let {id} = user;
+        
+
+        if(!id){
+            const {data} = user;
+            id = data.id
+        }
+
+        const payload = { sub: id }
 
         return{
             user,

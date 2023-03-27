@@ -27,10 +27,10 @@ export class Process{
     @ManyToOne(() => ProductionOrder, (order) => order.process)
     order: ProductionOrder;
 
-    @Column({type:'datetime', nullable: true})
+    @Column({type:'timestamp', nullable: true})
     date_in: Date;
 
-    @Column({type:'datetime', nullable: true})
+    @Column({type:'timestamp', nullable: true})
     date_out: Date;
  
     @Column({type:'decimal', precision: 10, scale: 2, default: 0})
