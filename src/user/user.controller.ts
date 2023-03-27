@@ -52,4 +52,11 @@ export class UserController {
         return this.userService.deleteOne(id);
     }
 
+    //Enpoint que retorna un usuario por nombre de usuario
+    @Auth()
+    @Get('/find-by/user-name/:user_name')
+    getOneByUserName( @Param('user_name') user_name: string ){
+        return this.userService.findByUserName(user_name)
+    }
+
 }
