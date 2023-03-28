@@ -3,7 +3,7 @@ import { Process } from 'src/process/entities/process.entity';
 import { ProductionOrder } from 'src/production-order/entities/production-order.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
-@Entity('request-notes')
+@Entity('request_notes')
 export class RequestNote{
 
     @PrimaryGeneratedColumn("uuid")

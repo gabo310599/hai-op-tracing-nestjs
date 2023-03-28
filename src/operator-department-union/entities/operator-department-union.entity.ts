@@ -3,7 +3,7 @@ import { Department } from 'src/department/entities/department.entity';
 import { Operator } from 'src/operator/entities/operator.entity';
 import { Entity, PrimaryGeneratedColumn, ManyToOne} from 'typeorm';
 
-@Entity('operators-departments-union')
+@Entity('operators_departments-union')
 export class OperatorDepartmentUnion{
 
     constructor(operator: Operator, department: Department){
