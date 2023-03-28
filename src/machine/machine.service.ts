@@ -74,7 +74,7 @@ export class MachineService {
             };
             
         }catch(error){
-            console.log(error)
+            console.log(error.message)
         }
         
     }
@@ -103,7 +103,7 @@ export class MachineService {
             };
             
         }catch(error){
-            console.log(error)
+            console.log(error.message)
         }
         
     }

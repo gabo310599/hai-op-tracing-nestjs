@@ -48,7 +48,7 @@ export class OperatorService {
             };
             
         }catch(error){
-            console.log(error)
+            console.log(error.message)
         }
 
     }
@@ -71,7 +71,7 @@ export class OperatorService {
             };
             
         }catch(error){
-            console.log(error)
+            console.log(error.message)
         }
         
     }

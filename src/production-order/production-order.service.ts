@@ -55,7 +55,7 @@ export class ProductionOrderService {
             };
             
         }catch(error){
-            console.log(error)
+            console.log(error.message)
         }
     }
 
@@ -77,7 +77,7 @@ export class ProductionOrderService {
             };
             
         }catch(error){
-            console.log(error)
+            console.log(error.message)
         }  
     }
 

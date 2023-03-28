@@ -39,7 +39,7 @@ export class RequestNoteService {
 
     //Metodo que crea un registro
     async createOne(dto: CreateRequestNoteDto) {
-        
+
         try{
             
             const requestNote = this.requestNoteRepository.create(dto);
@@ -50,7 +50,7 @@ export class RequestNoteService {
             };
             
         }catch(error){
-            console.log(error)
+            console.log(error.message)
         } 
 
     }
@@ -73,7 +73,7 @@ export class RequestNoteService {
             };
             
         }catch(error){
-            console.log(error)
+            console.log(error.message)
         }  
 
     }

@@ -113,7 +113,7 @@ export class ProcessService {
             };
             
         }catch(error){
-            console.log(error)
+            console.log(error.message)
         }
      
 
@@ -150,7 +150,7 @@ export class ProcessService {
             };
             
         }catch(error){
-            console.log(error)
+            console.log(error.message)
         }
         
     }

@@ -52,7 +52,7 @@ export class DepartmentService {
             };
 
         }catch(error){
-            console.log(error)
+            console.log(error.message)
         }
     }
 
@@ -74,7 +74,7 @@ export class DepartmentService {
             };
             
         }catch(error){
-            console.log(error)
+            console.log(error.message)
         }
     }
 
