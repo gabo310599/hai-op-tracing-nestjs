@@ -55,43 +55,57 @@ export class MachineService {
     //Metodo que crea un registro
     async createOne(dto: CreateMachineDto){
         
-        const department = await this.departmentRepository.findOneBy({id: dto.department_id});
+        try{
 
-        if(!department) throw new NotFoundException("El registro de departamento no existe");
+            const department = await this.departmentRepository.findOneBy({id: dto.department_id});
 
-        const machine = new Machine(department);
-        machine.brand = dto.brand;
-        machine.model = dto.model;
-        machine.name = dto.name;
+            if(!department) throw new NotFoundException("El registro de departamento no existe");
+
+            const machine = new Machine(department);
+            machine.brand = dto.brand;
+            machine.model = dto.model;
+            machine.name = dto.name;
+            
+            const data = await this.machineRepository.save(machine);
+
+            return {
+                msg: 'Peticion correcta',
+                data: data,
+            };
+            
+        }catch(error){
+            console.log(error)
+        }
         
-        const data = await this.machineRepository.save(machine);
-
-        return {
-            msg: 'Peticion correcta',
-            data: data,
-        };
     }
 
     //Metodo que actualiza un registro especifico
     async updateOne(id: string, dto: UpdateMachineDto) {
+
+        try{
+
+            const machine = await this.machineRepository.findOneBy({ id: id });
+
+            if (!machine) throw new NotFoundException('El registro de maquina no existe');
+            
+            const updatedMachine = Object.assign(machine, dto);
+
+            if(dto.department_id)
+                updatedMachine.department = await this.departmentRepository.findOneBy({id: dto.department_id});
+            
+            if(!updatedMachine.department && dto.department_id) throw new NotFoundException('El registro de departamento no existe');
+
+            const data = await this.machineRepository.save(updatedMachine);
+
+            return {
+                msg: 'Peticion correcta',
+                data: data,
+            };
+            
+        }catch(error){
+            console.log(error)
+        }
         
-        const machine = await this.machineRepository.findOneBy({ id: id });
-
-        if (!machine) throw new NotFoundException('El registro de maquina no existe');
-        
-        const updatedMachine = Object.assign(machine, dto);
-
-        if(dto.department_id)
-            updatedMachine.department = await this.departmentRepository.findOneBy({id: dto.department_id});
-        
-        if(!updatedMachine.department && dto.department_id) throw new NotFoundException('El registro de departamento no existe');
-
-        const data = await this.machineRepository.save(updatedMachine);
-
-        return {
-            msg: 'Peticion correcta',
-            data: data,
-        };
     }
 
     //Metodo que elimina un registro especifico

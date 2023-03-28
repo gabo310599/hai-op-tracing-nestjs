@@ -80,64 +80,79 @@ export class ProcessService {
 
     //Metodo que crea un registro
     async createOne(dto: CreateProcessDto){
+
+        try{
+
+            const request = await this.requestRepository.findOneBy({id: dto.request_id})
+            const department = await this.departmentRepository.findOneBy({id: dto.department_id});
+            const operator = await this.operatorRepository.findOneBy({id: dto.operator_id});
+            const machine = await this.machineRepository.findOneBy({id: dto.machine_id});
+            const order = await this.orderRepository.findOneBy({id: dto.order_id});
+    
+            if(!request) throw new NotFoundException("El registro de pedido no existe"); 
+            if(!department) throw new NotFoundException("El registro de departamento no existe");
+            if(!operator) throw new NotFoundException("El registro de operador no existe");
+    
+            const process = new Process();
+            process.request = request;
+            process.department = department;
+            process.operator = operator;
+            process.date_in = new Date(dto.date_in);
+            
+            if(dto.machine_id)
+                process.machine = machine;
+            
+            if(dto.order_id)
+                process.order = order;
+            
+            const data = await this.processRepository.save(process);
+    
+            return {
+                msg: 'Peticion correcta',
+                data: data,
+            };
+            
+        }catch(error){
+            console.log(error)
+        }
      
-        const request = await this.requestRepository.findOneBy({id: dto.request_id})
-        const department = await this.departmentRepository.findOneBy({id: dto.department_id});
-        const operator = await this.operatorRepository.findOneBy({id: dto.operator_id});
-        const machine = await this.machineRepository.findOneBy({id: dto.machine_id});
-        const order = await this.orderRepository.findOneBy({id: dto.order_id});
 
-        if(!request) throw new NotFoundException("El registro de pedido no existe"); 
-        if(!department) throw new NotFoundException("El registro de departamento no existe");
-        if(!operator) throw new NotFoundException("El registro de operador no existe");
-
-        const process = new Process();
-        process.request = request;
-        process.department = department;
-        process.operator = operator;
-        process.date_in = new Date(dto.date_in);
-        
-        if(dto.machine_id)
-            process.machine = machine;
-        
-        if(dto.order_id)
-            process.order = order;
-        
-        const data = await this.processRepository.save(process);
-
-        return {
-            msg: 'Peticion correcta',
-            data: data,
-        };
     }
 
     //Metodo que actualiza un registro especifico
     async updateOne(id: string, dto: UpdateProcessDto) {
-        
-        const process = await this.processRepository.findOneBy({ id: id });
 
-        if (!process) throw new NotFoundException('El registro no existe');
+        try{
 
-        const updatedProcess = process;
+            const process = await this.processRepository.findOneBy({ id: id });
 
-        if(dto.machine_id)
-            updatedProcess.machine = await this.machineRepository.findOneBy({id: dto.machine_id});
-        
-        if(dto.order_id)
-            updatedProcess.order = await this.orderRepository.findOneBy({id: dto.order_id});
-
-        if(dto.date_out){
-            updatedProcess.date_out = new Date(dto.date_out);
-            const difference = updatedProcess.date_out.getTime() - process.date_in.getTime();
-            updatedProcess.hours_in = difference / 1000 / 60 / 60; 
+            if (!process) throw new NotFoundException('El registro no existe');
+    
+            const updatedProcess = process;
+    
+            if(dto.machine_id)
+                updatedProcess.machine = await this.machineRepository.findOneBy({id: dto.machine_id});
+            
+            if(dto.order_id)
+                updatedProcess.order = await this.orderRepository.findOneBy({id: dto.order_id});
+    
+            if(dto.date_out){
+                updatedProcess.date_out = new Date(dto.date_out);
+                const difference = updatedProcess.date_out.getTime() - process.date_in.getTime();
+                updatedProcess.hours_in = difference / 1000 / 60 / 60; 
+            }
+    
+            const data = await this.processRepository.save(updatedProcess);
+    
+            return {
+                msg: 'Peticion correcta',
+                data: data,
+            };
+            
+        }catch(error){
+            console.log(error)
         }
-
-        const data = await this.processRepository.save(updatedProcess);
-
-        return {
-            msg: 'Peticion correcta',
-            data: data,
-        };
+        
     }
 
     //Metodo que elimina un registro especifico

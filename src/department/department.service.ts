@@ -41,27 +41,41 @@ export class DepartmentService {
 
     //Metodo que crea un registro
     async createOne(dto: CreateDepartmentDto) {
-        const department = this.departmentRepository.create(dto);
-        const data = await this.departmentRepository.save(department);
-        return {
-            msg: 'Peticion correcta',
-            data: data,
-        };
+
+        try{
+
+            const department = this.departmentRepository.create(dto);
+            const data = await this.departmentRepository.save(department);
+            return {
+                msg: 'Peticion correcta',
+                data: data,
+            };
+
+        }catch(error){
+            console.log(error)
+        }
     }
 
     //Metodo que actualiza un registro especifico
     async updateOne(id: string, dto: UpdateDepartmentDto) {
-        const department = await this.departmentRepository.findOneBy({ id: id });
 
-        if (!department) throw new NotFoundException('El registro no existe');
+        try{
+            
+            const department = await this.departmentRepository.findOneBy({ id: id });
 
-        const updatedDepartment = Object.assign(department, dto);
-        const data = await this.departmentRepository.save(updatedDepartment);
-
-        return {
-            msg: 'Peticion correcta',
-            data: data,
-        };
+            if (!department) throw new NotFoundException('El registro no existe');
+    
+            const updatedDepartment = Object.assign(department, dto);
+            const data = await this.departmentRepository.save(updatedDepartment);
+    
+            return {
+                msg: 'Peticion correcta',
+                data: data,
+            };
+            
+        }catch(error){
+            console.log(error)
+        }
     }
 
     //Metodo que elimina un registro especifico

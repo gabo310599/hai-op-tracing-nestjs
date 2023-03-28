@@ -44,27 +44,41 @@ export class ProductionOrderService {
 
     //Metodo que crea un registro
     async createOne(dto: CreateProductionOrderDto) {
-        const productionOrder = this.productionOrderRepository.create(dto);
-        const data = await this.productionOrderRepository.save(productionOrder);
-        return {
-            msg: 'Peticion correcta',
-            data: data,
-        };
+
+        try{
+
+            const productionOrder = this.productionOrderRepository.create(dto);
+            const data = await this.productionOrderRepository.save(productionOrder);
+            return {
+                msg: 'Peticion correcta',
+                data: data,
+            };
+            
+        }catch(error){
+            console.log(error)
+        }
     }
 
     //Metodo que actualiza un registro especifico
     async updateOne(id: string, dto: UpdateProductionOrderDto) {
-        const productionOrder = await this.productionOrderRepository.findOneBy({ id: id });
 
-        if (!productionOrder) throw new NotFoundException('El registro no existe');
+        try{
+            
+            const productionOrder = await this.productionOrderRepository.findOneBy({ id: id });
 
-        const updatedProductionOrder = Object.assign(productionOrder, dto);
-        const data = await this.productionOrderRepository.save(updatedProductionOrder);
-
-        return {
-            msg: 'Peticion correcta',
-            data: data,
-        };
+            if (!productionOrder) throw new NotFoundException('El registro no existe');
+    
+            const updatedProductionOrder = Object.assign(productionOrder, dto);
+            const data = await this.productionOrderRepository.save(updatedProductionOrder);
+    
+            return {
+                msg: 'Peticion correcta',
+                data: data,
+            };
+            
+        }catch(error){
+            console.log(error)
+        }  
     }
 
     //Metodo que elimina un registro especifico

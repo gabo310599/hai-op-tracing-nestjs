@@ -29,19 +29,26 @@ export class AuthService {
     //Metodo de login
     async login(user: any){
 
-        let {id} = user;
+        try{
+
+            let {id} = user;
         
 
-        if(!id){
-            const {data} = user;
-            id = data.id
-        }
+            if(!id){
+                const {data} = user;
+                id = data.id
+            }
 
-        const payload = { sub: id }
+            const payload = { sub: id }
 
-        return{
-            user,
-            accessToken: this.jwtService.sign(payload)
-        }
+            return{
+                user,
+                accessToken: this.jwtService.sign(payload)
+            }
+
+        }catch(error){
+            console.log(error);
+        };
+        
     }
 }

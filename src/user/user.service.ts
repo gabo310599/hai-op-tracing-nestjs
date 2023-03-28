@@ -57,24 +57,32 @@ export class UserService {
     //Metodo que actualiza un registro especifico
     async updateOne(id: string, dto: UpdateUserDto) {
 
-        const adminUser = await this.userRepository.findOneBy({user_name: 'admin'});
-        const userExist = await this.userRepository.findOneBy({ user_name: dto.user_name});
+        try{
+            
 
-        if(userExist && dto.user_name) throw new BadRequestException('El usuario ya existe');
+            const adminUser = await this.userRepository.findOneBy({user_name: 'admin'});
+            const userExist = await this.userRepository.findOneBy({ user_name: dto.user_name});
+    
+            if(userExist && dto.user_name) throw new BadRequestException('El usuario ya existe');
+    
+            if(adminUser.id === id) throw new BadRequestException('El usuario admin no se puede actualizar.');
+    
+            const user = await this.userRepository.findOneBy({ id: id });
+    
+            if (!user) throw new NotFoundException('El registro no existe');
+    
+            const updatedUser = Object.assign(user, dto);
+            const data = await this.userRepository.save(updatedUser);
+    
+            return {
+                msg: 'Peticion correcta',
+                data: data,
+            };
+            
+        }catch(error){
+            console.log(error)
+        } 
 
-        if(adminUser.id === id) throw new BadRequestException('El usuario admin no se puede actualizar.');
-
-        const user = await this.userRepository.findOneBy({ id: id });
-
-        if (!user) throw new NotFoundException('El registro no existe');
-
-        const updatedUser = Object.assign(user, dto);
-        const data = await this.userRepository.save(updatedUser);
-
-        return {
-            msg: 'Peticion correcta',
-            data: data,
-        };
     }
 
     //Metodo que elimina un registro especifico

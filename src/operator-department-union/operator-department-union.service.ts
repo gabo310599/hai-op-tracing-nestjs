@@ -60,19 +60,26 @@ export class OperatorDepartmentUnionService {
     //Metodo que crea un registro
     async createOne(dto: CreateOperatorDepartmentUnionDto) {
 
-        const operator = await this.operatorRepository.findOneBy({id: dto.operator_id});
-        const department = await this.departmentRepository.findOneBy({id: dto.department_id});
+        try{
 
-        if (!operator) throw new NotFoundException('El registro de operador no existe');
-        if (!department) throw new NotFoundException('El registro de departamento no existe');
+            const operator = await this.operatorRepository.findOneBy({id: dto.operator_id});
+            const department = await this.departmentRepository.findOneBy({id: dto.department_id});
+    
+            if (!operator) throw new NotFoundException('El registro de operador no existe');
+            if (!department) throw new NotFoundException('El registro de departamento no existe');
+    
+            const union = new OperatorDepartmentUnion(operator, department);
+            const data = await this.operatorDepartmentUnionRepository.save(union);
+    
+            return {
+                msg: 'Peticion correcta',
+                data: data,
+            };
+            
+        }catch(error){
+            console.log(error)
+        }
 
-        const union = new OperatorDepartmentUnion(operator, department);
-        const data = await this.operatorDepartmentUnionRepository.save(union);
-
-        return {
-            msg: 'Peticion correcta',
-            data: data,
-        };
     }
 
     //Metodo que elimina un registro especifico
