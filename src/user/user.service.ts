@@ -22,7 +22,11 @@ export class UserService {
 
     //Metodo que retorna todos los registros
     async getAll() {
-        const data = await this.userRepository.find();
+        const data = await this.userRepository.find({
+            relations: {
+                operator: true
+            }
+        });
         return {
             msg: 'Peticion correcta',
             data: data,
@@ -31,7 +35,14 @@ export class UserService {
 
     //Metodo que retorna un registro especifico
     async getOne(id: string) {
-        const data = await this.userRepository.findOneBy({ id: id });
+        const data = await this.userRepository.findOne({ 
+            where: {
+                id: id
+            },
+            relations:{
+                operator: true
+            }
+         });
 
         if (!data) throw new NotFoundException('El registro no existe');
 

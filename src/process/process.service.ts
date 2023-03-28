@@ -97,7 +97,7 @@ export class ProcessService {
             process.request = request;
             process.department = department;
             process.operator = operator;
-            process.date_in = new Date(dto.date_in);
+            process.date_in = new Date();
             
             if(dto.machine_id)
                 process.machine = machine;

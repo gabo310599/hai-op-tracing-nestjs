@@ -11,12 +11,6 @@ export class User{
     @PrimaryGeneratedColumn("uuid")
     id: string;
 
-    // @Column({type: 'varchar', length: 30})
-    // name: string;
-
-    // @Column({type: 'varchar', length: 30})
-    // last_name: string;
-
      @Column({type: 'varchar', length: 30, nullable: false, unique: true})
      user_name: string;
 

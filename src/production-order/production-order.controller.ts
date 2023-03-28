@@ -53,6 +53,7 @@ export class ProductionOrderController {
     @Auth()
     @Put('/request-note/union')
     createRequestOrderUnion( @Body() dto: CreateRequestOrderUnionDto){
+        console.log(dto, "HOLA")
         return this.productionOrderService.createRequestOrderUnion(dto);
     }
 

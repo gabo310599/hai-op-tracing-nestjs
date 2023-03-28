@@ -20,6 +20,7 @@ export class CreateProcessDto{
     @IsString()
     order_id: string;
 
+    @IsOptional()
     @IsString()
     date_in: string;
 

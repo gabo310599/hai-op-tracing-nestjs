@@ -23,7 +23,11 @@ export class ProductionOrderService {
 
     //Metodo que retorna todos los registros
     async getAll() {
-        const data = await this.productionOrderRepository.find();
+        const data = await this.productionOrderRepository.find({
+            relations: {
+                request: true
+            }
+        });
         return {
             msg: 'Peticion correcta',
             data: data,
@@ -32,7 +36,14 @@ export class ProductionOrderService {
 
     //Metodo que retorna un registro especifico
     async getOne(id: string) {
-        const data = await this.productionOrderRepository.findOneBy({ id: id });
+        const data = await this.productionOrderRepository.findOne({
+            where:{
+                id: id
+            },
+            relations:{
+                request: true
+            }
+        });
 
         if (!data) throw new NotFoundException('El registro no existe');
 
