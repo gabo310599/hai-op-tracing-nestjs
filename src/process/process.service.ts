@@ -165,4 +165,276 @@ export class ProcessService {
         }
     }
 
+    //Metodo que retorna cuantos procesos activos hay por departamento
+    async getProcessCountByDepartment(){
+
+        const processes = await this.processRepository.find({
+            relations:{
+                request: true,
+                department: true,
+                operator: true,
+                machine: true,
+                order: true
+            }
+        });
+
+        let dg = 0;
+        let dt = 0;
+        let gop = 0;
+        let iop = 0;
+        let t = 0;
+        let e = 0;
+        let c = 0;
+        let cc = 0;
+        let f = 0;
+        let d = 0;
+
+        processes.map(function(process){
+            
+            switch(process.department.name){
+                
+                case "Diseño Gráfico": {
+                    dg++;
+                    break;
+                };
+
+                case "Diseño Textil":{
+                    dt++;
+                    break;
+                };
+
+                case "Generar OP":{
+                    gop++;
+                    break;
+                };
+
+                case "Imprimir OP":{
+                    iop++;
+                    break;
+                };
+
+                case "Tejeduría": {
+                    t++;
+                    break;
+                };
+
+                case "Enrollado": {
+                    e++;
+                    break;
+                };
+
+                case "Corte": {
+                    c++;
+                    break;
+                };
+
+                case "Control de Calidad":{
+                    cc++;
+                    break;
+                };
+
+                case "Facturación":{
+                    f++;
+                    break;
+                };
+
+                case "Despacho":{
+                    d++;
+                    break;
+                }
+            }
+        })
+
+        return {
+            msg: "Peticion correcta",
+            data: {
+                DG: dg,
+                DT: dt,
+                GOP: gop,
+                IOP: iop,
+                T: t,
+                E: e,
+                C: c,
+                CC: cc,
+                F: f,
+                D: d
+            }
+        }
+    }
+
+    //Metodo que retorna que departamentos tienen al menos un pedido retrasado en proceso
+    async getDepartmentsDelay(){
+
+        const processes = await this.processRepository.find({
+            relations:{
+                request: true,
+                department: true,
+                operator: true,
+                machine: true,
+                order: true
+            }
+        });
+
+        let dg = false;
+        let dt = false;
+        let gop = false;
+        let iop = false;
+        let t = false;
+        let e = false;
+        let c = false;
+        let cc = false;
+        let f = false;
+        let d = false;
+
+        processes.map(function(process){
+            
+            switch(process.department.name){
+                
+                case "Diseño Gráfico": {
+                    
+                    const today = new Date();
+                    const difference = today.getTime() - process.date_in.getTime();
+                    const differenceInDays = difference / 1000 / 60 / 60 / 24;
+
+                    if(differenceInDays > process.department.days_time_limit)
+                        dg = true;
+
+                    break;
+                };
+
+                case "Diseño Textil":{
+
+                    const today = new Date();
+                    const difference = today.getTime() - process.date_in.getTime();
+                    const differenceInDays = difference / 1000 / 60 / 60 / 24;
+
+                    if(differenceInDays > process.department.days_time_limit)
+                        dt = true;
+
+                    break;
+                };
+
+                case "Generar OP":{
+                    
+                    const today = new Date();
+                    const difference = today.getTime() - process.date_in.getTime();
+                    const differenceInDays = difference / 1000 / 60 / 60 / 24;
+
+                    if(differenceInDays > process.department.days_time_limit)
+                        gop = true;
+
+                    break;
+
+                };
+
+                case "Imprimir OP":{
+
+                    const today = new Date();
+                    const difference = today.getTime() - process.date_in.getTime();
+                    const differenceInDays = difference / 1000 / 60 / 60 / 24;
+
+                    if(differenceInDays > process.department.days_time_limit)
+                        iop = true;
+
+                    break;
+
+                };
+
+                case "Tejeduría": {
+                    
+                    const today = new Date();
+                    const difference = today.getTime() - process.date_in.getTime();
+                    const differenceInDays = difference / 1000 / 60 / 60 / 24;
+
+                    if(differenceInDays > process.department.days_time_limit)
+                        t = true;
+
+                    break;
+
+                };
+
+                case "Enrollado": {
+                  
+                    const today = new Date();
+                    const difference = today.getTime() - process.date_in.getTime();
+                    const differenceInDays = difference / 1000 / 60 / 60 / 24;
+
+                    if(differenceInDays > process.department.days_time_limit)
+                        e = true;
+
+                    break;
+
+                };
+
+                case "Corte": {
+                    
+                    const today = new Date();
+                    const difference = today.getTime() - process.date_in.getTime();
+                    const differenceInDays = difference / 1000 / 60 / 60 / 24;
+
+                    if(differenceInDays > process.department.days_time_limit)
+                        c = true;
+
+                    break;
+
+                };
+
+                case "Control de Calidad":{
+
+                    const today = new Date();
+                    const difference = today.getTime() - process.date_in.getTime();
+                    const differenceInDays = difference / 1000 / 60 / 60 / 24;
+
+                    if(differenceInDays > process.department.days_time_limit)
+                        cc = true;
+
+                    break;
+
+                };
+
+                case "Facturación":{
+
+                    const today = new Date();
+                    const difference = today.getTime() - process.date_in.getTime();
+                    const differenceInDays = difference / 1000 / 60 / 60 / 24;
+
+                    if(differenceInDays > process.department.days_time_limit)
+                        f = true;
+
+                    break;
+
+                };
+
+                case "Despacho":{
+
+                    const today = new Date();
+                    const difference = today.getTime() - process.date_in.getTime();
+                    const differenceInDays = difference / 1000 / 60 / 60 / 24;
+
+                    if(differenceInDays > process.department.days_time_limit)
+                        d = true;
+
+                    break;
+
+                }
+            }
+        })
+        
+        return {
+            msg: "Peticion correcta",
+            data: {
+                DG: dg,
+                DT: dt,
+                GOP: gop,
+                IOP: iop,
+                T: t,
+                E: e,
+                C: c,
+                CC: cc,
+                F: f,
+                D: d
+            }
+        }
+    }
+
 }

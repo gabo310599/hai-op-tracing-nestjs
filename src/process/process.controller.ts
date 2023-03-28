@@ -46,4 +46,18 @@ export class ProcessController {
     deleteOne( @Param('id') id: string ){
         return this.processService.deleteOne(id);
     }
+
+    //Endpoint que retorna cuantos procesos activos hay por departamento
+    @Auth()
+    @Get('/count/by-department')
+    async getProcessCountByDepartment(){
+        return await this.processService.getProcessCountByDepartment();
+    }
+
+    //Endpoint que retorna cuantos procesos activos hay por departamento
+    @Auth()
+    @Get('/delay/by-department')
+    async getDepartmentsDelay(){
+        return await this.processService.getDepartmentsDelay();
+    }
 }
