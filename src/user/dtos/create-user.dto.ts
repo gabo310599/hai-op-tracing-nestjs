@@ -6,13 +6,13 @@ import { AppRoles } from "src/app.roles";
 
 export class CreateUserDto{
 
-    @IsString()
-    @MaxLength(30)
-    name: string;
+    // @IsString()
+    // @MaxLength(30)
+    // name: string;
 
-    @IsString()
-    @MaxLength(30)
-    last_name: string;
+    // @IsString()
+    // @MaxLength(30)
+    // last_name: string;
 
     @IsString()
     @MaxLength(30)
@@ -22,6 +22,10 @@ export class CreateUserDto{
     @MinLength(5)
     @MaxLength(150)
     password: string;
+
+    @IsOptional()
+    @IsString()
+    operator_id: string;
     
     @IsOptional()
     @IsArray()

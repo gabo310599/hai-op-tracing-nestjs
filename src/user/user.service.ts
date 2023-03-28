@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Operator } from 'src/operator/entities/operator.entity';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
@@ -10,6 +11,9 @@ import { User } from './entities/user.entity';
 export class UserService {
 
     constructor(
+
+        @InjectRepository(Operator)
+        private readonly operatorRepository: Repository<Operator>,
 
         @InjectRepository(User)
         private readonly userRepository: Repository<User>
@@ -39,19 +43,31 @@ export class UserService {
 
     //Metodo que crea un registro
     async createOne(dto: CreateUserDto) {
+
+        try{
+            
+            const userExist = await this.userRepository.findOneBy({ user_name: dto.user_name});
+            const operator = await this.operatorRepository.findOneBy({id: dto.operator_id})
+
+            if(userExist) throw new BadRequestException('El nombre de usuario ya existe');
+            if(!operator) throw new NotFoundException('El registor de operador no existe')
+
+            const user = this.userRepository.create(dto);
+            if(dto.operator_id)
+                user.operator = operator
+
+            const data = await this.userRepository.save(user);
+            delete data.password;
+
+            return {
+                msg: 'Peticion correcta',
+                data: data,
+            };
+            
+        }catch(error){
+            console.log(error.message)
+        }  
         
-        const userExist = await this.userRepository.findOneBy({ user_name: dto.user_name});
-
-        if(userExist) throw new BadRequestException('El nombre de usuario ya existe');
-
-        const user = this.userRepository.create(dto);
-        const data = await this.userRepository.save(user);
-        delete data.password;
-
-        return {
-            msg: 'Peticion correcta',
-            data: data,
-        };
     }
 
     //Metodo que actualiza un registro especifico

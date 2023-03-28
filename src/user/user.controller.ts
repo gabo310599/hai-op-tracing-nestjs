@@ -30,15 +30,14 @@ export class UserController {
     }
 
     //Endpoint que crea un registro
-    @HasRoles(AppRoles.ADMIN)
-    @UseGuards(RolesGuard)
-    @Auth()
     @Post()
     createOne( @Body() dto: CreateUserDto ){
         return this.userService.createOne(dto);
     }
 
     //Endpoint que actualiza un registro
+    @HasRoles(AppRoles.ADMIN)
+    @UseGuards(RolesGuard)
     @Auth()
     @Put(':id')
     updateOne( @Param('id') id: string, @Body() dto: UpdateUserDto ){
