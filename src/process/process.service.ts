@@ -437,4 +437,47 @@ export class ProcessService {
         }
     }
 
+    //Metodo que retorna una lista de los procesos con retrasos por departamento
+    async getListOfDelayProcess(){
+
+        const processes = await this.processRepository.find({
+            relations:{
+                request: true,
+                department: true,
+                order: true
+            }
+        });
+
+        const data = []
+
+        processes.map(function(process){
+            
+            const jsonBase = {
+                id: null,
+                department: null,
+                order: null,
+                request: null
+            }
+
+            const today = new Date();
+            const difference = today.getTime() - process.date_in.getTime();
+            const differenceInDays = difference / 1000 / 60 / 60 / 24;
+
+            if(differenceInDays > process.department.days_time_limit){
+                jsonBase.id = process.id;
+                jsonBase.department = process.department.name;
+                if(process.order)
+                    jsonBase.order = process.order.op_number;
+                jsonBase.request = process.request.serial;
+                data.push(jsonBase)
+            }
+
+        });
+
+        return{
+            msg: "Peticion correcta",
+            data
+        }
+    }
+
 }

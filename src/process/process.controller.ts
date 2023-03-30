@@ -54,10 +54,17 @@ export class ProcessController {
         return await this.processService.getProcessCountByDepartment();
     }
 
-    //Endpoint que retorna cuantos procesos activos hay por departamento
+    //Endpoint que retorna que departamentos tienen al menos un pedido retrasado en proceso
     @Auth()
     @Get('/delay/by-department')
     async getDepartmentsDelay(){
         return await this.processService.getDepartmentsDelay();
+    }
+
+    //Endpoint que retorna una lista de los procesos con retrasos por departamento
+    @Auth()
+    @Get('/delay/list-by-department')
+    async getListOfDelayProcess(){
+        return await this.processService.getListOfDelayProcess();
     }
 }
