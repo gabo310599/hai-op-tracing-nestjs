@@ -58,4 +58,15 @@ export class UserController {
         return this.userService.findByUserName(user_name)
     }
 
+    //Enpoint que retorna si un nombre de usuario existe en la base de datos
+    @Get('/exist/:user_name')
+    async exist( @Param('user_name') user_name: string ){
+        const user =  await this.userService.findByUserName(user_name);
+        if(user)
+            return true;
+        else
+            return false;
+    }
+
+
 }

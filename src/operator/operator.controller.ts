@@ -27,7 +27,6 @@ export class OperatorController {
     }
 
     //Endpoint que crea un registro
-    @Auth()
     @Post()
     createOne( @Body() dto: CreateOperatorDto ){
         return this.operatorService.createOne(dto);
