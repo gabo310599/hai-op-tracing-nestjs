@@ -456,7 +456,8 @@ export class ProcessService {
                 id: null,
                 department: null,
                 order: null,
-                request: null
+                request: null,
+                delay: null
             }
 
             const today = new Date();
@@ -466,6 +467,8 @@ export class ProcessService {
             if(differenceInDays > process.department.days_time_limit){
                 jsonBase.id = process.id;
                 jsonBase.department = process.department.name;
+                jsonBase.delay = differenceInDays - process.department.days_time_limit;
+                jsonBase.delay = jsonBase.delay.toFixed(2);
                 if(process.order)
                     jsonBase.order = process.order.op_number;
                 jsonBase.request = process.request.serial;
@@ -474,9 +477,77 @@ export class ProcessService {
 
         });
 
+        const dg = [];
+        const dt = [];
+        const gop = [];
+        const iop = [];
+        const t = [];
+        const e = [];
+        const c = [];
+        const cc = [];
+        const f = [];
+        const d = [];
+
+        data.map(function(row){
+            switch(row.department){
+                case "Diseño Gráfico": {
+                    dg.push(row);
+                    break;
+                };
+                case "Diseño Textil":{
+                    dt.push(row);
+                    break;
+                };
+                case "Generar OP":{
+                    gop.push(row);
+                    break;
+                };
+                case "Imprimir OP":{
+                    iop.push(row);
+                    break;
+                };
+                case "Tejeduría": {
+                    t.push(row);
+                    break;
+                };
+                case "Enrollado": {
+                    e.push(row);
+                    break;
+                };
+                case "Corte": {
+                    c.push(row);
+                    break;
+                };
+                case "Control de Calidad":{
+                    cc.push(row);
+                    break;
+                };
+                case "Facturación":{
+                    f.push(row);
+                    break;
+                };
+                case "Despacho":{
+                    d.push(row);
+                    break;
+                }
+            }
+        })
+
         return{
             msg: "Peticion correcta",
-            data
+            data:{ 
+                DG: dg,
+                DT: dt,
+                GOP: gop,
+                IOP: iop,
+                T: t,
+                E: e,
+                C: c,
+                CC: cc,
+                F: f,
+                D: d
+            }
+            
         }
     }
 
