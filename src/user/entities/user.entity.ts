@@ -11,8 +11,8 @@ export class User{
     @PrimaryGeneratedColumn("uuid")
     id: string;
 
-     @Column({type: 'varchar', length: 30, nullable: false, unique: true})
-     user_name: string;
+    @Column({type: 'varchar', length: 30, nullable: false, unique: true})
+    user_name: string;
 
     @Column({type: 'varchar', length: 150, nullable: false, select: false})
     password: string;

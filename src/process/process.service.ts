@@ -441,6 +441,9 @@ export class ProcessService {
     async getListOfDelayProcess(){
 
         const processes = await this.processRepository.find({
+            where:{
+                date_out: null
+            },
             relations:{
                 request: true,
                 department: true,
