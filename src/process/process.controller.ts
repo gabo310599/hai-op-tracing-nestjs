@@ -68,10 +68,10 @@ export class ProcessController {
         return await this.processService.getListOfDelayProcess();
     }
 
-    //Endpoint que retorna los procesos activos de un departamento
+    //Endpoint que retorna los procesos de un departamento
     @Auth()
-    @Get('/active/by-department/:department_id')
-    async getActiveProcessByDepartment(  @Param('department_id') department_id: string ){
-        return await this.processService.getActiveProcessByDepartment(department_id);
+    @Get('/by-department/:department_id')
+    async getProcessByDepartment(  @Param('department_id') department_id: string ){
+        return await this.processService.getProcessByDepartment(department_id);
     }
 }

@@ -87,4 +87,21 @@ export class DepartmentService {
             data: data
         }
     }
+
+    //Metodo que retorna la informacion de un departamento por su nombre
+    async getOneByName(department_name: any){
+
+        const data = await this.departmentRepository.findOne({ 
+            where:{
+                name: department_name.name
+            } 
+        })
+
+        if(!data) throw new NotFoundException("El registro no existe.")
+
+        return {
+            msg: "Peticion correcta",
+            data: data
+        }
+    }
 }

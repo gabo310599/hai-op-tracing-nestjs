@@ -46,4 +46,11 @@ export class DepartmentController {
     deleteOne( @Param('id') id: string ){
         return this.departmentService.deleteOne(id);
     }
+
+    //Endpoint que obtiene un departamento por su nombre
+    @Auth()
+    @Get('/get/by-name')
+    getOneByName( @Body() department_name: any ){
+        return this.departmentService.getOneByName(department_name);
+    }
 }

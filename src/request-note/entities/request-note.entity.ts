@@ -18,7 +18,7 @@ export class RequestNote{
     @Column({type: 'varchar', length: 20})
     code: string;
     
-    @Column({type: 'varchar', length: 10})
+    @Column({type: 'varchar', length: 10, nullable: true})
     characters: string;
 
     @OneToMany(() => Process, (process) => process.request)

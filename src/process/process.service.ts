@@ -554,17 +554,16 @@ export class ProcessService {
         }
     }
 
-    //Metodo que retorna la lista de procesos activos de un departamento
-    async getActiveProcessByDepartment(department_id: string){
+    //Metodo que retorna la lista de procesos no activos de un departamento
+    async getProcessByDepartment(department_id: string){
         
         const department = await this.departmentRepository.findOneBy({id: department_id});
-
+    
         if(!department) throw new NotFoundException('El registro de departamento no exite.')
-
+    
         const data = await this.processRepository.find({
             where:{
-                department: department,
-                date_out: null
+                department: department
             },
             relations:{
                 request: true,
@@ -574,7 +573,7 @@ export class ProcessService {
                 order: true
             }
         });
-
+    
         return {
             msg: 'Peticion correcta',
             data: data,
