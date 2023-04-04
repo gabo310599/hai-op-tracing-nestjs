@@ -565,6 +565,13 @@ export class ProcessService {
             where:{
                 department: department,
                 date_out: null
+            },
+            relations:{
+                request: true,
+                department: true,
+                operator: true,
+                machine: true,
+                order: true
             }
         });
 
