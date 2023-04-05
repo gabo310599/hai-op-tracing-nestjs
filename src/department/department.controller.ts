@@ -49,7 +49,7 @@ export class DepartmentController {
 
     //Endpoint que obtiene un departamento por su nombre
     @Auth()
-    @Get('/get/by-name')
+    @Post('/get/by-name')
     getOneByName( @Body() department_name: any ){
         return this.departmentService.getOneByName(department_name);
     }
