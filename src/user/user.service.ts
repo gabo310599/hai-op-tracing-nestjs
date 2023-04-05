@@ -137,4 +137,23 @@ export class UserService {
             .getOne()
     }
 
+    //Metodo que devuelve el usuario asociado a un operador especifico
+    async getOneByOperator(operator_id: string){
+        
+        const operator = await this.operatorRepository.findOneBy({id: operator_id});
+
+        if(!operator) throw new NotFoundException("El registro de operador no existe.");
+        
+        const data = await this.userRepository.findOne({
+            where:{
+                operator: operator
+            }
+        })
+
+        return {
+            msg: "Peticion correcta",
+            data: data
+        }
+    }
+
 }

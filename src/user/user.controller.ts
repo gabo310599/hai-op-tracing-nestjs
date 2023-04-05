@@ -22,7 +22,7 @@ export class UserController {
         return await this.userService.getAll();
     }
 
-    //Endpoint que retornar un solo registro
+    //Endpoint que retorna un solo registro
     @Auth()
     @Get(':id')
     getOne( @Param('id') id: string ){
@@ -68,5 +68,11 @@ export class UserController {
             return false;
     }
 
+    //Endpoint que retorna un usuario a traves del operario
+    @Auth()
+    @Get('/get-by-operator/:id')
+    getOneByOperator( @Param('id') operator_id: string ){
+        return this.userService.getOneByOperator(operator_id);
+    }
 
 }

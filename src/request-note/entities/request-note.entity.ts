@@ -12,10 +12,10 @@ export class RequestNote{
     @Column({type: 'varchar', length: 20})
     serial: string;
 
-    @Column({type: 'varchar', length: 255})
+    @Column({type: 'varchar', length: 255, nullable: true})
     description: string;
 
-    @Column({type: 'varchar', length: 20})
+    @Column({type: 'varchar', length: 20, nullable: true})
     code: string;
     
     @Column({type: 'varchar', length: 10, nullable: true})
