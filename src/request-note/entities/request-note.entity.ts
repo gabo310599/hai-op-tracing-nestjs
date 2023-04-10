@@ -15,7 +15,7 @@ export class RequestNote{
     @Column({type: 'varchar', length: 255, nullable: true})
     description: string;
 
-    @Column({type: 'varchar', length: 20, nullable: true})
+    @Column({type: 'varchar', length: 50, nullable: true})
     code: string;
     
     @Column({type: 'varchar', length: 10, nullable: true})

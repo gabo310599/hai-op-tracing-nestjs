@@ -96,7 +96,6 @@ export class DepartmentService {
                 name: department_name.name
             } 
         })
-
         if(!data) throw new NotFoundException("El registro no existe.")
 
         return {

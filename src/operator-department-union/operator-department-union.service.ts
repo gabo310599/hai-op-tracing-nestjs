@@ -92,6 +92,32 @@ export class OperatorDepartmentUnionService {
         }
     }
 
+    //Metodo que elimina un registro especifico segun el operador y el departamento
+    async deleteByDepartmentAndOperator(dto: CreateOperatorDepartmentUnionDto){
+        
+        const operator = await this.operatorRepository.findOneBy({id: dto.operator_id});
+        const department = await this.departmentRepository.findOneBy({id: dto.department_id});
+        
+        if(!operator) throw new NotFoundException('No se encontro el registro del operario.');
+        if(!department) throw new NotFoundException('No se encontro el registro del departamento.');
+
+        const union = await this.operatorDepartmentUnionRepository.findOne({
+            where:{
+                operator: operator,
+                department: department
+            }
+        });
+
+        if(!union) throw new NotFoundException("No se encontro la union.")
+
+        const data = await this.operatorDepartmentUnionRepository.delete(union.id);
+
+        return {
+            msg: "Peticion correcta",
+            data: data
+        }
+    }
+
     //Metodo que regresa todos los operarios de un departamento especifico
     async getOperatorsByDepartment(id_department: string){
         
@@ -120,7 +146,7 @@ export class OperatorDepartmentUnionService {
         }
     }
 
-    //Metodo que regresa todos los operarios de un departamento especifico
+    //Metodo que regresa todos los departamentos de un operador especifico
     async getDepartmentsByOperator(id_operator: string){
         
         const operator = await this.operatorRepository.findOneBy({id: id_operator});

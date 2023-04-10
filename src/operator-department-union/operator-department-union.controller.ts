@@ -52,4 +52,12 @@ export class OperatorDepartmentUnionController {
     getDepartmentsByOperator( @Param('id') id: string){
         return this.operatorDepartmentService.getDepartmentsByOperator(id);
     }
+
+    //Endpoint que elimina un registro especifico segun el operador y el departamento
+    @Auth()
+    @Post('/delete/by-operator-and-department')
+    deleteByDepartmentAndOperator( @Body() dto: CreateOperatorDepartmentUnionDto){
+
+        return this.operatorDepartmentService.deleteByDepartmentAndOperator(dto);
+    }
 }

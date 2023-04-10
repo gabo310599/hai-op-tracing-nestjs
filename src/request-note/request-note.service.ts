@@ -41,7 +41,6 @@ export class RequestNoteService {
     async createOne(dto: CreateRequestNoteDto) {
 
         try{
-            
             const requestNote = this.requestNoteRepository.create(dto);
             const data = await this.requestNoteRepository.save(requestNote);
             return {
@@ -51,6 +50,7 @@ export class RequestNoteService {
             
         }catch(error){
             console.log(error.message)
+            return error;
         } 
 
     }
