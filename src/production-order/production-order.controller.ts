@@ -66,7 +66,7 @@ export class ProductionOrderController {
 
     //Endpoint que devuelve todas las ordenes asociadas a un pedido (serial + letra)
     @Auth()
-    @Get('/all/orders-by-request')
+    @Post('/get/orders-by-request')
     getOrdersByRequest( @Body() dto: GetOrdersByRequestDto){
         return this.productionOrderService.getOrdersByRequest(dto);
     }

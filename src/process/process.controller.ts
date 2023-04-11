@@ -74,4 +74,19 @@ export class ProcessController {
     async getProcessByDepartment(  @Param('department_id') department_id: string ){
         return await this.processService.getProcessByDepartment(department_id);
     }
+
+    //Endpoint que retorna una lista de pedidos esperando entrar a un departamento.
+    @Auth()
+    @Get('list/check-in/:id')
+    getCheckInProcesses( @Param('id') id: string ){
+        return this.processService.getCheckInProcesses(id);
+    }
+
+    //Endpoint que retorna una lista de pedidos esperando entrar a un departamento.
+    @Auth()
+    @Get('list/check-out/:id')
+    getCheckOutProcesses( @Param('id') id: string ){
+        return this.processService.getCheckOutProcesses(id);
+    }
+
 }

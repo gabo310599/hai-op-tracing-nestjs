@@ -9,6 +9,7 @@ export class CreateProcessDto{
     @IsString()
     department_id: string;
 
+    @IsOptional()
     @IsString()
     operator_id: string;
 

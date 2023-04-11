@@ -41,6 +41,21 @@ export class RequestNoteService {
     async createOne(dto: CreateRequestNoteDto) {
 
         try{
+
+            const duplicate = await this.requestNoteRepository.findOne({
+                where:{
+                    serial: dto.serial,
+                    characters: dto.characters
+                }
+            })
+
+            if(duplicate) {
+                return {
+                    msg: 'Error.',
+                    type: 'El pedido ya se encuentra registrado, por favor ingresar un nuevo pedido.'
+                }
+            };
+
             const requestNote = this.requestNoteRepository.create(dto);
             const data = await this.requestNoteRepository.save(requestNote);
             return {

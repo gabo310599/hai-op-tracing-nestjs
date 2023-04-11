@@ -91,19 +91,19 @@ export class ProcessService {
     
             if(!request) throw new NotFoundException("El registro de pedido no existe"); 
             if(!department) throw new NotFoundException("El registro de departamento no existe");
-            if(!operator) throw new NotFoundException("El registro de operador no existe");
     
             const process = new Process();
             process.request = request;
             process.department = department;
-            process.operator = operator;
-            process.date_in = new Date();
             
             if(dto.machine_id)
                 process.machine = machine;
             
             if(dto.order_id)
                 process.order = order;
+            
+            if(dto.operator_id)
+                process.operator = operator;
             
             const data = await this.processRepository.save(process);
     
@@ -141,6 +141,12 @@ export class ProcessService {
                 const difference = updatedProcess.date_out.getTime() - process.date_in.getTime();
                 updatedProcess.hours_in = difference / 1000 / 60 / 60; 
             }
+
+            if(dto.date_in)
+                updatedProcess.date_in = new Date(dto.date_in);
+
+            if(dto.operator_id)
+                updatedProcess.operator = await this.operatorRepository.findOneBy({id: dto.operator_id})
     
             const data = await this.processRepository.save(updatedProcess);
     
@@ -194,52 +200,62 @@ export class ProcessService {
             switch(process.department.name){
                 
                 case "Diseño Gráfico": {
-                    dg++;
+                    if(process.date_in && !process.date_out)
+                        dg++;
                     break;
                 };
 
                 case "Diseño Textil":{
-                    dt++;
+                    if(process.date_in && !process.date_out)
+                        dt++;
                     break;
                 };
 
                 case "Generar OP":{
-                    gop++;
+                    if(process.date_in && !process.date_out)
+                        gop++;
                     break;
                 };
 
                 case "Imprimir OP":{
-                    iop++;
+                    if(process.date_in && !process.date_out)
+                        iop++;
                     break;
                 };
 
                 case "Tejeduría": {
-                    t++;
+                    if(process.date_in && !process.date_out)
+                        t++;
                     break;
                 };
 
                 case "Enrollado": {
-                    e++;
+                    if(process.date_in && !process.date_out)
+                        e++;
                     break;
                 };
 
                 case "Corte": {
-                    c++;
+                    if(process.date_in && !process.date_out)
+                        c++;
                     break;
                 };
 
                 case "Control de Calidad":{
-                    cc++;
+                    if(process.date_in && !process.date_out)
+                        cc++;
                     break;
                 };
 
                 case "Facturación":{
-                    f++;
+                    if(process.date_in && !process.date_out)
+                        f++;
                     break;
                 };
 
                 case "Despacho":{
-                    d++;
+                    if(process.date_in && !process.date_out)
+                        d++;
                     break;
                 }
             }
@@ -292,128 +308,138 @@ export class ProcessService {
                 
                 case "Diseño Gráfico": {
                     
-                    const today = new Date();
-                    const difference = today.getTime() - process.date_in.getTime();
-                    const differenceInDays = difference / 1000 / 60 / 60 / 24;
+                    if(process.date_in){
+                        const today = new Date();
+                        const difference = today.getTime() - process.date_in.getTime();
+                        const differenceInDays = difference / 1000 / 60 / 60 / 24;
 
-                    if(differenceInDays > process.department.days_time_limit)
-                        dg = true;
-
+                        if(differenceInDays > process.department.days_time_limit)
+                            dg = true;
+                    }
                     break;
                 };
 
                 case "Diseño Textil":{
 
-                    const today = new Date();
-                    const difference = today.getTime() - process.date_in.getTime();
-                    const differenceInDays = difference / 1000 / 60 / 60 / 24;
+                    if(process.date_in){
+                        const today = new Date();
+                        const difference = today.getTime() - process.date_in.getTime();
+                        const differenceInDays = difference / 1000 / 60 / 60 / 24;
 
-                    if(differenceInDays > process.department.days_time_limit)
-                        dt = true;
-
+                        if(differenceInDays > process.department.days_time_limit)
+                            dt = true;
+                    }
                     break;
                 };
 
                 case "Generar OP":{
                     
-                    const today = new Date();
-                    const difference = today.getTime() - process.date_in.getTime();
-                    const differenceInDays = difference / 1000 / 60 / 60 / 24;
+                    if(process.date_in){
+                        const today = new Date();
+                        const difference = today.getTime() - process.date_in.getTime();
+                        const differenceInDays = difference / 1000 / 60 / 60 / 24;
 
-                    if(differenceInDays > process.department.days_time_limit)
-                        gop = true;
-
+                        if(differenceInDays > process.department.days_time_limit)
+                            gop = true;
+                    }
                     break;
 
                 };
 
                 case "Imprimir OP":{
 
-                    const today = new Date();
-                    const difference = today.getTime() - process.date_in.getTime();
-                    const differenceInDays = difference / 1000 / 60 / 60 / 24;
+                    if(process.date_in){
+                        const today = new Date();
+                        const difference = today.getTime() - process.date_in.getTime();
+                        const differenceInDays = difference / 1000 / 60 / 60 / 24;
 
-                    if(differenceInDays > process.department.days_time_limit)
-                        iop = true;
-
+                        if(differenceInDays > process.department.days_time_limit)
+                            iop = true;
+                    }
                     break;
 
                 };
 
                 case "Tejeduría": {
                     
-                    const today = new Date();
-                    const difference = today.getTime() - process.date_in.getTime();
-                    const differenceInDays = difference / 1000 / 60 / 60 / 24;
+                    if(process.date_in){
+                        const today = new Date();
+                        const difference = today.getTime() - process.date_in.getTime();
+                        const differenceInDays = difference / 1000 / 60 / 60 / 24;
 
-                    if(differenceInDays > process.department.days_time_limit)
-                        t = true;
-
+                        if(differenceInDays > process.department.days_time_limit)
+                            t = true;
+                    }
                     break;
 
                 };
 
                 case "Enrollado": {
                   
-                    const today = new Date();
-                    const difference = today.getTime() - process.date_in.getTime();
-                    const differenceInDays = difference / 1000 / 60 / 60 / 24;
+                    if(process.date_in){
+                        const today = new Date();
+                        const difference = today.getTime() - process.date_in.getTime();
+                        const differenceInDays = difference / 1000 / 60 / 60 / 24;
 
-                    if(differenceInDays > process.department.days_time_limit)
-                        e = true;
-
+                        if(differenceInDays > process.department.days_time_limit)
+                            e = true;
+                    }
                     break;
 
                 };
 
                 case "Corte": {
                     
-                    const today = new Date();
-                    const difference = today.getTime() - process.date_in.getTime();
-                    const differenceInDays = difference / 1000 / 60 / 60 / 24;
+                    if(process.date_in){
+                        const today = new Date();
+                        const difference = today.getTime() - process.date_in.getTime();
+                        const differenceInDays = difference / 1000 / 60 / 60 / 24;
 
-                    if(differenceInDays > process.department.days_time_limit)
-                        c = true;
-
+                        if(differenceInDays > process.department.days_time_limit)
+                            c = true;
+                    }
                     break;
 
                 };
 
                 case "Control de Calidad":{
 
-                    const today = new Date();
-                    const difference = today.getTime() - process.date_in.getTime();
-                    const differenceInDays = difference / 1000 / 60 / 60 / 24;
+                    if(process.date_in){
+                        const today = new Date();
+                        const difference = today.getTime() - process.date_in.getTime();
+                        const differenceInDays = difference / 1000 / 60 / 60 / 24;
 
-                    if(differenceInDays > process.department.days_time_limit)
-                        cc = true;
-
+                        if(differenceInDays > process.department.days_time_limit)
+                            cc = true;
+                    }
                     break;
 
                 };
 
                 case "Facturación":{
 
-                    const today = new Date();
-                    const difference = today.getTime() - process.date_in.getTime();
-                    const differenceInDays = difference / 1000 / 60 / 60 / 24;
+                    if(process.date_in){
+                        const today = new Date();
+                        const difference = today.getTime() - process.date_in.getTime();
+                        const differenceInDays = difference / 1000 / 60 / 60 / 24;
 
-                    if(differenceInDays > process.department.days_time_limit)
-                        f = true;
-
+                        if(differenceInDays > process.department.days_time_limit)
+                            f = true;
+                    }
                     break;
 
                 };
 
                 case "Despacho":{
 
-                    const today = new Date();
-                    const difference = today.getTime() - process.date_in.getTime();
-                    const differenceInDays = difference / 1000 / 60 / 60 / 24;
+                    if(process.date_in){
+                        const today = new Date();
+                        const difference = today.getTime() - process.date_in.getTime();
+                        const differenceInDays = difference / 1000 / 60 / 60 / 24;
 
-                    if(differenceInDays > process.department.days_time_limit)
-                        d = true;
-
+                        if(differenceInDays > process.department.days_time_limit)
+                            d = true;
+                    }
                     break;
 
                 }
@@ -463,21 +489,22 @@ export class ProcessService {
                 delay: null
             }
 
-            const today = new Date();
-            const difference = today.getTime() - process.date_in.getTime();
-            const differenceInDays = difference / 1000 / 60 / 60 / 24;
+            if(process.date_in){
+                const today = new Date();
+                const difference = today.getTime() - process.date_in.getTime();
+                const differenceInDays = difference / 1000 / 60 / 60 / 24;
 
-            if(differenceInDays > process.department.days_time_limit){
-                jsonBase.id = process.id;
-                jsonBase.department = process.department.name;
-                jsonBase.delay = differenceInDays - process.department.days_time_limit;
-                jsonBase.delay = jsonBase.delay.toFixed(2);
-                if(process.order)
-                    jsonBase.order = process.order.op_number;
-                jsonBase.request = process.request.serial;
-                data.push(jsonBase)
+                if(differenceInDays > process.department.days_time_limit){
+                    jsonBase.id = process.id;
+                    jsonBase.department = process.department.name;
+                    jsonBase.delay = differenceInDays - process.department.days_time_limit;
+                    jsonBase.delay = jsonBase.delay.toFixed(2);
+                    if(process.order)
+                        jsonBase.order = process.order.op_number;
+                    jsonBase.request = process.request.serial;
+                    data.push(jsonBase)
+                }
             }
-
         });
 
         const dg = [];
@@ -574,6 +601,76 @@ export class ProcessService {
             }
         });
     
+        return {
+            msg: 'Peticion correcta',
+            data: data,
+        };
+    }
+
+    //Metodo que retorna la lista de procesos en espera dentro de un departamento
+    async getCheckInProcesses(department_id: string){
+
+        const department = await this.departmentRepository.findOneBy({ id: department_id });
+
+        if(!department) throw new NotFoundException("El registro de departamento no existe.")
+
+        let data = await this.processRepository.find({
+            where: {
+                department: department,         
+            },
+            relations: {
+                request: true,
+                department: true,
+                operator: true,
+                machine: true,
+                order: true
+            }
+        })
+
+        for(let i = 0; i < data.length; i++){
+            if(data[i].date_in)
+                delete(data[i])
+        }
+
+        data = data.filter(function(x) {
+            return x !== undefined;
+        });
+
+        return {
+            msg: 'Peticion correcta',
+            data: data,
+        };
+    }
+
+    //Metodo que retorna la lista de procesos en espera dentro de un departamento
+    async getCheckOutProcesses(department_id: string){
+
+        const department = await this.departmentRepository.findOneBy({ id: department_id });
+
+        if(!department) throw new NotFoundException("El registro de departamento no existe.")
+
+        let data = await this.processRepository.find({
+            where: {
+                department: department,         
+            },
+            relations: {
+                request: true,
+                department: true,
+                operator: true,
+                machine: true,
+                order: true
+            }
+        })
+
+        for(let i = 0; i < data.length; i++){
+            if(data[i].date_out || !data[i].date_in)
+                delete(data[i])
+        }
+
+        data = data.filter(function(x) {
+            return x !== undefined;
+        });
+
         return {
             msg: 'Peticion correcta',
             data: data,
