@@ -89,4 +89,10 @@ export class ProcessController {
         return this.processService.getCheckOutProcesses(id);
     }
 
+        //Endpoint que crea un registro
+        @Auth()
+        @Get('/get/request-whithout-op/generate-op/:id')
+        getRequestWithoutOpInGenerateOP( @Param('id') department_id: string ){
+            return this.processService.getRequestWithoutOpInGenerateOP(department_id);
+        }
 }

@@ -635,7 +635,7 @@ export class ProcessService {
         data = data.filter(function(x) {
             return x !== undefined;
         });
-
+        
         return {
             msg: 'Peticion correcta',
             data: data,
@@ -676,5 +676,42 @@ export class ProcessService {
             data: data,
         };
     }
+
+    //Metodo que retorna una lista con los procesos activos sin OP en Generar OP
+    async getRequestWithoutOpInGenerateOP(department_id: string){
+
+        //Obtenemos la info del departamento
+        const department = await this.departmentRepository.findOneBy({ id: department_id})
+
+        if(!department) throw new NotFoundException("El registro de departamento no se encontro.");
+
+        //Obtenemos la informacion de los procesos en el departamento
+        let data = await this.processRepository.find({
+            where:{
+                department: department,
+                order: null
+            },
+            relations: {
+                department: true,
+                order: true,
+                request: true
+            }
+        })
+
+        //Eliminamos los procesos que tengan fecha de salida, o alguna orden, o no tengan fecha de entrada.
+        for(let i = 0; i < data.length; i++){
+            if(data[i].date_out || !data[i].date_in)
+                delete(data[i])
+        }
+
+        data = data.filter(function(x) {
+            return x !== undefined;
+        });
+
+        return {
+            msg: 'Peticion correcta',
+            data: data,
+        };
+    } 
 
 }
