@@ -64,6 +64,7 @@ export class MachineService {
             const machine = new Machine(department);
             machine.brand = dto.brand;
             machine.model = dto.model;
+            machine.area = dto.area;
             machine.name = dto.name;
             
             const data = await this.machineRepository.save(machine);

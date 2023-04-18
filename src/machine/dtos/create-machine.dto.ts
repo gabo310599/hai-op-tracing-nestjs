@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { IsNumber, IsOptional, IsString } from 'class-validator';
+import { AreaEnum } from '../enums/area.enum';
 
 export class CreateMachineDto{
 
@@ -8,9 +9,12 @@ export class CreateMachineDto{
 
     @IsString()
     model: string;
-
+    
     @IsString()
     name: string;
+
+    @IsString()
+    area: AreaEnum;
 
     @IsString()
     department_id: string;
