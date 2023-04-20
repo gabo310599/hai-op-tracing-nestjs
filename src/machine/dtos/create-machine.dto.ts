@@ -10,8 +10,8 @@ export class CreateMachineDto{
     @IsString()
     model: string;
     
-    @IsString()
-    name: string;
+    @IsNumber()
+    number: number;
 
     @IsString()
     area: AreaEnum;
