@@ -20,8 +20,8 @@ export class Machine{
     @Column({type: 'varchar', length: 50})
     model: string;
 
-    @Column({type: 'int'})
-    number: number;
+    @Column({type: 'varchar', length: 50, nullable: true})
+    number: string;
 
     @Column({type: 'enum', enum: AreaEnum})
     area: AreaEnum;

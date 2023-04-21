@@ -82,17 +82,24 @@ export class ProcessController {
         return this.processService.getCheckInProcesses(id);
     }
 
-    //Endpoint que retorna una lista de pedidos esperando entrar a un departamento.
+    //Endpoint que retorna una lista de pedidos dentro de un departamento.
     @Auth()
     @Get('list/check-out/:id')
     getCheckOutProcesses( @Param('id') id: string ){
         return this.processService.getCheckOutProcesses(id);
     }
 
-        //Endpoint que crea un registro
-        @Auth()
-        @Get('/get/request-whithout-op/generate-op/:id')
-        getRequestWithoutOpInGenerateOP( @Param('id') department_id: string ){
-            return this.processService.getRequestWithoutOpInGenerateOP(department_id);
-        }
+    //Endpoint que retorna una lista de pedidos sin op en el departamento generar op
+    @Auth()
+    @Get('/get/request-whithout-op/generate-op/:id')
+    getRequestWithoutOpInGenerateOP( @Param('id') department_id: string ){
+        return this.processService.getRequestWithoutOpInGenerateOP(department_id);
+    }
+
+    //Endpoint que retorna una lista de pedidos dentro de un departamento sin maquina asociada.
+    @Auth()
+    @Get('/get/process-without-machine/:id')
+    getProcessWithoutMachines( @Param('id') id: string ){
+        return this.processService.getProcessWithoutMachines(id);
+    }
 }

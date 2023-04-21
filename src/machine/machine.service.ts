@@ -119,4 +119,30 @@ export class MachineService {
         }
     }
 
+    //Metodo que devuelve las maquinas asociadas a un departamento especifico
+    async getMachinesByDepartment(department_id: string){
+
+        const department = await this.departmentRepository.findOne({
+            where:{
+                id: department_id
+            }
+        });
+
+        if(!department) throw new NotFoundException("El registro de departamento no se encontro.");
+
+        const data = await this.machineRepository.find({
+            where:{
+                department: department
+            },
+            relations:{
+                department: true
+            }
+        })
+        
+        return {
+            msg: "Peticion correcta",
+            data: data
+        }
+    }
+
 }

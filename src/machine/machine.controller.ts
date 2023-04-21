@@ -46,4 +46,11 @@ export class MachineController {
     deleteOne( @Param('id') id: string ){
         return this.machineService.deleteOne(id);
     }
+
+    //Endpoint que retorna una lista de maquinas por departamento
+    @Auth()
+    @Get("get/by-department/:id")
+    getMachinesByDepartment( @Param('id') id: string ){
+        return this.machineService.getMachinesByDepartment(id);
+    }
 }
