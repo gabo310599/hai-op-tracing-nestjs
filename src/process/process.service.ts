@@ -735,7 +735,7 @@ export class ProcessService {
         })
     
         for(let i = 0; i < data.length; i++){
-            if(data[i].date_out || !data[i].date_in || data[i].machine)
+            if(data[i].date_out || data[i].date_in || data[i].machine)
                 delete(data[i])
         }
     
