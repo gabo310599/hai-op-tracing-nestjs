@@ -36,4 +36,7 @@ export class Process{
     @Column({type:'decimal', precision: 10, scale: 2, default: 0})
     hours_in: number;
 
+    @Column({type: 'varchar', length: 500, nullable: true})
+    observation: string;
+
 }

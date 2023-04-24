@@ -147,6 +147,9 @@ export class ProcessService {
 
             if(dto.operator_id)
                 updatedProcess.operator = await this.operatorRepository.findOneBy({id: dto.operator_id})
+            
+            if(dto.observation)
+                updatedProcess.observation = dto.observation;
     
             const data = await this.processRepository.save(updatedProcess);
     
