@@ -752,4 +752,39 @@ export class ProcessService {
         };
     }
 
+    //Metodo que retorna lista de procesos completados de un departamento.
+    async getCompleteProcessesByDepartment(department_id: string){
+
+        const department = await this.departmentRepository.findOneBy({id: department_id});
+
+        if(!department) throw new NotFoundException("El registro de departamento no existe.");
+
+        let data = await this.processRepository.find({
+            where:{
+                department: department
+            },
+            relations:{
+                request: true,
+                department: true,
+                operator: true,
+                machine: true,
+                order: true
+            }
+        });
+
+        for(let i = 0; i < data.length; i++){
+            if(!data[i].date_out || !data[i].date_in  || data[i].observation)
+                delete(data[i])
+        }
+    
+        data = data.filter(function(x) {
+            return x !== undefined;
+        });
+
+        return {
+            msg: 'Peticion correcta',
+            data: data,
+        };
+    }
+
 }

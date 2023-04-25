@@ -102,4 +102,11 @@ export class ProcessController {
     getProcessWithoutMachines( @Param('id') id: string ){
         return this.processService.getProcessWithoutMachines(id);
     }
+
+    //Endpoint que retorna una lista de procesos completados dentro de un departamento.
+    @Auth()
+    @Get('/get/complete-by-department/:id')
+    getCompleteProcessesByDepartment( @Param('id') id: string ){
+        return this.processService.getCompleteProcessesByDepartment(id);
+    }
 }
