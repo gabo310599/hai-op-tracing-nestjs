@@ -311,7 +311,7 @@ export class ProcessService {
                 
                 case "Diseño Gráfico": {
                     
-                    if(process.date_in){
+                    if(process.date_in && !process.date_out){
                         const today = new Date();
                         const difference = today.getTime() - process.date_in.getTime();
                         const differenceInDays = difference / 1000 / 60 / 60 / 24;
@@ -324,7 +324,7 @@ export class ProcessService {
 
                 case "Diseño Textil":{
 
-                    if(process.date_in){
+                    if(process.date_in && !process.date_out){
                         const today = new Date();
                         const difference = today.getTime() - process.date_in.getTime();
                         const differenceInDays = difference / 1000 / 60 / 60 / 24;
@@ -337,7 +337,7 @@ export class ProcessService {
 
                 case "Generar OP":{
                     
-                    if(process.date_in){
+                    if(process.date_in && !process.date_out){
                         const today = new Date();
                         const difference = today.getTime() - process.date_in.getTime();
                         const differenceInDays = difference / 1000 / 60 / 60 / 24;
@@ -351,7 +351,7 @@ export class ProcessService {
 
                 case "Imprimir OP":{
 
-                    if(process.date_in){
+                    if(process.date_in && !process.date_out){
                         const today = new Date();
                         const difference = today.getTime() - process.date_in.getTime();
                         const differenceInDays = difference / 1000 / 60 / 60 / 24;
@@ -365,7 +365,7 @@ export class ProcessService {
 
                 case "Tejeduría": {
                     
-                    if(process.date_in){
+                    if(process.date_in && !process.date_out){
                         const today = new Date();
                         const difference = today.getTime() - process.date_in.getTime();
                         const differenceInDays = difference / 1000 / 60 / 60 / 24;
@@ -379,7 +379,7 @@ export class ProcessService {
 
                 case "Enrollado": {
                   
-                    if(process.date_in){
+                    if(process.date_in && !process.date_out){
                         const today = new Date();
                         const difference = today.getTime() - process.date_in.getTime();
                         const differenceInDays = difference / 1000 / 60 / 60 / 24;
@@ -393,7 +393,7 @@ export class ProcessService {
 
                 case "Corte": {
                     
-                    if(process.date_in){
+                    if(process.date_in && !process.date_out){
                         const today = new Date();
                         const difference = today.getTime() - process.date_in.getTime();
                         const differenceInDays = difference / 1000 / 60 / 60 / 24;
@@ -407,7 +407,7 @@ export class ProcessService {
 
                 case "Control de Calidad":{
 
-                    if(process.date_in){
+                    if(process.date_in && !process.date_out){
                         const today = new Date();
                         const difference = today.getTime() - process.date_in.getTime();
                         const differenceInDays = difference / 1000 / 60 / 60 / 24;
@@ -421,7 +421,7 @@ export class ProcessService {
 
                 case "Facturación":{
 
-                    if(process.date_in){
+                    if(process.date_in && !process.date_out){
                         const today = new Date();
                         const difference = today.getTime() - process.date_in.getTime();
                         const differenceInDays = difference / 1000 / 60 / 60 / 24;
@@ -435,7 +435,7 @@ export class ProcessService {
 
                 case "Despacho":{
 
-                    if(process.date_in){
+                    if(process.date_in && !process.date_out){
                         const today = new Date();
                         const difference = today.getTime() - process.date_in.getTime();
                         const differenceInDays = difference / 1000 / 60 / 60 / 24;
