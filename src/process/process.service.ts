@@ -492,7 +492,7 @@ export class ProcessService {
                 delay: null
             }
 
-            if(process.date_in){
+            if(process.date_in && !process.date_out){
                 const today = new Date();
                 const difference = today.getTime() - process.date_in.getTime();
                 const differenceInDays = difference / 1000 / 60 / 60 / 24;
