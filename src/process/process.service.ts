@@ -584,14 +584,14 @@ export class ProcessService {
         }
     }
 
-    //Metodo que retorna la lista de procesos no activos de un departamento
+    //Metodo que retorna la lista de procesos activos de un departamento
     async getProcessByDepartment(department_id: string){
         
         const department = await this.departmentRepository.findOneBy({id: department_id});
     
         if(!department) throw new NotFoundException('El registro de departamento no exite.')
     
-        const data = await this.processRepository.find({
+        let data = await this.processRepository.find({
             where:{
                 department: department
             },
@@ -602,6 +602,15 @@ export class ProcessService {
                 machine: true,
                 order: true
             }
+        });
+
+        for(let i = 0; i < data.length; i++){
+            if(!data[i].date_out && !data[i].date_in )
+                delete(data[i])
+        }
+    
+        data = data.filter(function(x) {
+            return x !== undefined;
         });
     
         return {
