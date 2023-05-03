@@ -831,4 +831,32 @@ export class ProcessService {
         };
     }
 
+    //Metodo que devuelve una lista de pedidos con su ultimo proceso activo
+    async getLastActiveProcesses(){
+        
+        let data = await this.processRepository.find({
+            relations:{
+                request: true,
+                department: true,
+                operator: true,
+                machine: true,
+                order: true
+            }
+        });
+
+        for(let i = 0; i < data.length; i++){
+            if(data[i].date_out)
+                delete(data[i])
+        }
+    
+        data = data.filter(function(x) {
+            return x !== undefined;
+        });
+        
+        return {
+            msg: 'Peticion correcta',
+            data: data,
+        };
+    }
+
 }

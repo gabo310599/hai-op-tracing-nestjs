@@ -116,4 +116,11 @@ export class ProcessController {
     getProcessesInMachine( @Param('id') id: string ){
         return this.processService.getProcessesInMachine(id);
     }
+
+    //Endpoint que retorna una lista de procesos completados dentro de un departamento.
+    @Auth()
+    @Get('/get/last-active')
+    getLastActiveProcesses(){
+        return this.processService.getLastActiveProcesses();
+    }
 }
