@@ -796,4 +796,39 @@ export class ProcessService {
         };
     }
 
+    //Metodo que retorna lista de procesos que se encuentren en una maquina especifica
+    async getProcessesInMachine(machine_id: string){
+        
+        const machine = await this.machineRepository.findOneBy({id: machine_id});
+
+        if(!machine) throw new NotFoundException("No se encontro el registro de la maquina");
+
+        let data = await this.processRepository.find({
+            where: {
+                machine: machine
+            },
+            relations:{
+                request: true,
+                department: true,
+                operator: true,
+                machine: true,
+                order: true
+            }
+        });
+
+        for(let i = 0; i < data.length; i++){
+            if(data[i].date_out || !data[i].date_in)
+                delete(data[i])
+        }
+    
+        data = data.filter(function(x) {
+            return x !== undefined;
+        });
+
+        return {
+            msg: 'Peticion correcta',
+            data: data,
+        };
+    }
+
 }

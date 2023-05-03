@@ -109,4 +109,11 @@ export class ProcessController {
     getCompleteProcessesByDepartment( @Param('id') id: string ){
         return this.processService.getCompleteProcessesByDepartment(id);
     }
+
+    //Endpoint que retorna una lista de procesos completados dentro de un departamento.
+    @Auth()
+    @Get('/get/by-machine/:id')
+    getProcessesInMachine( @Param('id') id: string ){
+        return this.processService.getProcessesInMachine(id);
+    }
 }
