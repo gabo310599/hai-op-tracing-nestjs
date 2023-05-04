@@ -110,17 +110,24 @@ export class ProcessController {
         return this.processService.getCompleteProcessesByDepartment(id);
     }
 
-    //Endpoint que retorna una lista de procesos completados dentro de un departamento.
+    //Endpoint que retorna lista de procesos que se encuentren en una maquina especifica.
     @Auth()
     @Get('/get/by-machine/:id')
     getProcessesInMachine( @Param('id') id: string ){
         return this.processService.getProcessesInMachine(id);
     }
 
-    //Endpoint que retorna una lista de procesos completados dentro de un departamento.
+    //Endpoint que devuelve una lista de pedidos con su ultimo proceso activo.
     @Auth()
     @Get('/get/last-active')
     getLastActiveProcesses(){
         return this.processService.getLastActiveProcesses();
+    }
+
+    //Endpoint que retorna los procesos de un pedido especifico para la linea de tiempo.
+    @Auth()
+    @Get('/get/for-time-line/:id')
+    getProcessForTimeLine( @Param('id') id: string ){
+        return this.processService.getProcessForTimeLine(id);
     }
 }

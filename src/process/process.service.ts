@@ -859,4 +859,80 @@ export class ProcessService {
         };
     }
 
+    //Metodo que retorna los procesos de un pedido especifico para la linea de tiempo
+    async getProcessForTimeLine(process_id: string){
+
+        const process = await this.processRepository.findOne({
+            where:{
+                id: process_id
+            },
+            relations:{
+                request: true,
+                department: true,
+                operator: true,
+                machine: true,
+                order: true
+            }
+        });
+
+        if(!process) throw new NotFoundException("No se encontro el registro de proceso.");
+
+        let data = [];
+
+        if(!process.order){
+            
+            const processesByRequest = await this.processRepository.find({
+                where:{
+                    request: process.request
+                },
+                relations:{
+                    request: true,
+                    department: true,
+                    operator: true,
+                    machine: true,
+                    order: true
+                }
+            });
+
+            if(!processesByRequest) throw new NotFoundException("No se encontraron registros con ese pedido");
+
+            data = processesByRequest;
+
+        }else{
+
+            const processesByRequest = await this.processRepository.find({
+                where:{
+                    request: process.request
+                },
+                relations:{
+                    request: true,
+                    department: true,
+                    operator: true,
+                    machine: true,
+                    order: true
+                }
+            });
+
+            if(!processesByRequest) throw new NotFoundException("No se encontraron registros con ese pedido");
+
+            data = processesByRequest;
+
+            for(let i = 0; i < data.length; i++){
+                if(data[i].order)
+                    if(data[i].order.id != process.order.id)
+                        delete(data[i])
+            }
+        
+            data = data.filter(function(x) {
+                return x !== undefined;
+            });
+
+        }
+        
+        return {
+            msg: 'Peticion correcta',
+            data: data,
+        };
+    }
+
 }
