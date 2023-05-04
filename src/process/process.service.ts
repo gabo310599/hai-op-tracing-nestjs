@@ -919,7 +919,7 @@ export class ProcessService {
 
             for(let i = 0; i < data.length; i++){
                 if(data[i].order)
-                    if(data[i].order.id != process.order.id)
+                    if((data[i].order.id != process.order.id) && data[i].department.name != "Generar OP")
                         delete(data[i])
             }
         
