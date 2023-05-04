@@ -935,4 +935,43 @@ export class ProcessService {
         };
     }
 
+    //Metodo que devuelve la lista de procesos del historial
+    async getHistory(){
+        
+        const department = await this.departmentRepository.findOne({
+            where:{
+                name: "Despacho"
+            }
+        });
+
+        if(!department) throw new NotFoundException("No se encontro el registro del departamento.")
+
+        let data = await this.processRepository.find({
+            where:{
+                department: department
+            },
+            relations:{
+                request: true,
+                department: true,
+                operator: true,
+                machine: true,
+                order: true
+            }
+        })
+
+        for(let i = 0; i < data.length; i++){
+            if(!data[i].date_in || !data[i].date_out)
+                delete(data[i])
+        }
+    
+        data = data.filter(function(x) {
+            return x !== undefined;
+        });
+
+        return {
+            msg: 'Peticion correcta',
+            data: data,
+        };
+    }
+
 }

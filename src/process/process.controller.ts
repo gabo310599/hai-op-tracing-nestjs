@@ -130,4 +130,11 @@ export class ProcessController {
     getProcessForTimeLine( @Param('id') id: string ){
         return this.processService.getProcessForTimeLine(id);
     }
+
+    //Endpoint que retorna el historial de procesos.
+    @Auth()
+    @Get('/get/history')
+    getHistory(){
+        return this.processService.getHistory();
+    }
 }
