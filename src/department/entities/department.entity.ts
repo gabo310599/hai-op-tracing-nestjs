@@ -16,6 +16,9 @@ export class Department{
     @Column({type: 'decimal', precision: 10, scale: 2, default: 0})
     days_time_limit: number;
 
+    @Column({type: 'int',  default: 0})
+    process_turn: number;
+
     @OneToMany(() => Machine, (machine) => machine.department)
     machine: Machine[];
 
