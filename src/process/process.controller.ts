@@ -137,4 +137,11 @@ export class ProcessController {
     getHistory(){
         return this.processService.getHistory();
     }
+
+    //Endpoint que retorna una lista de procesos que tengan alguna observacion.
+    @Auth()
+    @Get('/get/by-observation')
+    getByObservation(){
+        return this.processService.getByObservation();
+    }
 }
