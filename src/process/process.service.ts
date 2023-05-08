@@ -462,7 +462,7 @@ export class ProcessService {
             differenceInDays - process.department.days_time_limit;
           jsonBase.delay = jsonBase.delay.toFixed(2);
           if (process.order) jsonBase.order = process.order.op_number;
-          jsonBase.request = process.request.serial;
+          jsonBase.request = process.request.serial + process.request.characters;
           data.push(jsonBase);
         }
       }
