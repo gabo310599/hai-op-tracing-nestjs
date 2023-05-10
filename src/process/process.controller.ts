@@ -144,4 +144,18 @@ export class ProcessController {
     getByObservation(){
         return this.processService.getByObservation();
     }
+
+    //Endpoint que devuelve los pedidos que aun no entren a ningun departamento.
+    @Auth()
+    @Get('/get/request-without-check-in')
+    getRequestWithoutCheckIn(){
+        return this.processService.getRequestWithoutCheckIn();
+    }
+
+    //Endpoint que devuelve las ordenes que aun no entren a ningun departamento.
+    @Auth()
+    @Get('/get/order-without-check-in')
+    getOrderWithoutCheckIn(){
+        return this.processService.getOrderWithoutCheckIn();
+    }
 }

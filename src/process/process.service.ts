@@ -462,7 +462,8 @@ export class ProcessService {
             differenceInDays - process.department.days_time_limit;
           jsonBase.delay = jsonBase.delay.toFixed(2);
           if (process.order) jsonBase.order = process.order.op_number;
-          jsonBase.request = process.request.serial + process.request.characters;
+          jsonBase.request =
+            process.request.serial + process.request.characters;
           data.push(jsonBase);
         }
       }
@@ -947,18 +948,17 @@ export class ProcessService {
   //Metodo que devuelve todos los procesos que tengan alguna observacion
   async getByObservation() {
     let data = await this.processRepository.find({
-        relations: {
-            request: true,
-            department: true,
-            operator: true,
-            machine: true,
-            order: true,
-          },
+      relations: {
+        request: true,
+        department: true,
+        operator: true,
+        machine: true,
+        order: true,
+      },
     });
 
     for (let i = 0; i < data.length; i++) {
-      if (!data[i].observation ) 
-        delete data[i];
+      if (!data[i].observation) delete data[i];
     }
 
     data = data.filter(function (x) {
@@ -970,4 +970,74 @@ export class ProcessService {
       data: data,
     };
   }
+
+  //Metodo que devuelve los pedidos que aun no entren a ningun departamento
+  async getRequestWithoutCheckIn() {
+    const department = await this.departmentRepository.findOne({
+      where: {
+        process_turn: 1,
+      },
+    });
+
+    if (!department)
+      throw new NotFoundException('El registro de departamento no existe.');
+
+    let data = await this.processRepository.find({
+      where: {
+        department: department,
+      },
+      relations: {
+        request: true,
+      },
+    });
+
+
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].date_in || data[i].date_out) delete data[i];
+    }
+
+    data = data.filter(function (x) {
+      return x !== undefined;
+    });
+
+    return {
+      msg: 'Peticion correcta',
+      data: data,
+    };
+  }
+
+  //Metodo que devuelve las ordenes que aun no entren a ningun departamento
+  async getOrderWithoutCheckIn() {
+    const department = await this.departmentRepository.findOne({
+      where: {
+        process_turn: 4,
+      },
+    });
+
+    if (!department)
+      throw new NotFoundException('El registro de departamento no existe.');
+
+    let data = await this.processRepository.find({
+      where: {
+        department: department,
+      },
+      relations: {
+        order: true,
+      },
+    });
+
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].date_in || data[i].date_out) delete data[i];
+    }
+
+    data = data.filter(function (x) {
+      return x !== undefined;
+    });
+
+    return {
+      msg: 'Peticion correcta',
+      data: data,
+    };
+  }
+
 }
