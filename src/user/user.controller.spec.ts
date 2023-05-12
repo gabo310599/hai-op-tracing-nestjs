@@ -1,13 +1,21 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserController } from './user.controller';
+import { UserService } from './user.service';
 
 describe('UserController', () => {
   let controller: UserController;
 
+  const mockUserService = {};
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UserController],
-    }).compile();
+      providers: [UserService],
+    })
+      .overrideProvider(UserService)
+      .useValue(mockUserService)
+      .compile();
 
     controller = module.get<UserController>(UserController);
   });
@@ -15,4 +23,8 @@ describe('UserController', () => {
   it('should be defined', () => {
     expect(controller).toBeDefined();
   });
+
+  // it('should create a user', () => {
+  //   expect(controller.createOne({}))
+  // })
 });
