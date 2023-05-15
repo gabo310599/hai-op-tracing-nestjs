@@ -1,8 +1,8 @@
 /* eslint-disable prettier/prettier */
 import { hash } from 'bcryptjs';
-import { AppRoles } from 'src/app.roles';
-import { Log } from 'src/log/entities/log.entity';
-import { Operator } from 'src/operator/entities/operator.entity';
+import { AppRoles } from '../../app.roles';
+import { Log } from '../../log/entities/log.entity';
+import { Operator } from '../../operator/entities/operator.entity';
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, BeforeInsert, BeforeUpdate, OneToMany, JoinColumn, OneToOne } from 'typeorm';
 
 @Entity('users')

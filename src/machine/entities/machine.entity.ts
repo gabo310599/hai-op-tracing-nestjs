@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
-import { Department } from 'src/department/entities/department.entity';
-import { Process } from 'src/process/entities/process.entity';
+import { Department } from '../../department/entities/department.entity';
+import { Process } from '../../process/entities/process.entity';
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany} from 'typeorm';
 import { AreaEnum } from '../enums/area.enum';
 

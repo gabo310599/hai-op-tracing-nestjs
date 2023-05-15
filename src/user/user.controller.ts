@@ -1,10 +1,10 @@
 /* eslint-disable prettier/prettier */
 import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger/dist/decorators';
-import { AppRoles } from 'src/app.roles';
-import { RolesGuard } from 'src/auth/guards/roles.guard';
-import { Auth } from 'src/common/decorators/auth.decorator';
-import { HasRoles } from 'src/common/decorators/role.decorator';
+import { AppRoles } from '../app.roles';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { Auth } from '../common/decorators/auth.decorator';
+import { HasRoles } from '../common/decorators/role.decorator';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { UserService } from './user.service';

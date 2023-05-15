@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 
 import { IsArray, IsEnum, IsOptional, IsString, MaxLength, MinLength } from "class-validator";
-import { AppRoles } from "src/app.roles";
+import { AppRoles } from "../../app.roles";
 
 
 export class CreateUserDto{

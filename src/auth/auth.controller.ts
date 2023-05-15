@@ -1,9 +1,9 @@
 /* eslint-disable prettier/prettier */
 import { Controller, Post, Get, UseGuards, Body } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger/dist/decorators';
-import { Auth } from 'src/common/decorators/auth.decorator';
-import { UserDecorator } from 'src/common/decorators/user.decorator';
-import { User } from 'src/user/entities/user.entity';
+import { Auth } from '../common/decorators/auth.decorator';
+import { UserDecorator } from '../common/decorators/user.decorator';
+import { User } from '../user/entities/user.entity';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dtos/login.dto';
 import { LocalAuthGuard } from './guards/local-auth.guard';

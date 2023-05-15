@@ -1,8 +1,8 @@
 /* eslint-disable prettier/prettier */
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Department } from 'src/department/entities/department.entity';
-import { Operator } from 'src/operator/entities/operator.entity';
+import { Department } from '../department/entities/department.entity';
+import { Operator } from '../operator/entities/operator.entity';
 import { Repository } from 'typeorm';
 import { CreateOperatorDepartmentUnionDto } from './dtos/create-operator-department-union.dto';
 import { OperatorDepartmentUnion } from './entities/operator-department-union.entity';

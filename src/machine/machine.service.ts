@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Department } from 'src/department/entities/department.entity';
+import { Department } from '../department/entities/department.entity';
 import { Repository } from 'typeorm';
 import { CreateMachineDto } from './dtos/create-machine.dto';
 import { UpdateMachineDto } from './dtos/update-machine.dto';

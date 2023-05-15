@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
-import { Process } from 'src/process/entities/process.entity';
-import { ProductionOrder } from 'src/production-order/entities/production-order.entity';
+import { Process } from '../../process/entities/process.entity';
+import { ProductionOrder } from '../../production-order/entities/production-order.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity('request_notes')

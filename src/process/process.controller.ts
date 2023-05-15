@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger/dist/decorators';
-import { Auth } from 'src/common/decorators/auth.decorator';
+import { Auth } from '../common/decorators/auth.decorator';
 import { CreateProcessDto } from './dtos/create-process.dto';
 import { UpdateProcessDto } from './dtos/update-process.dto';
 import { ProcessService } from './process.service';

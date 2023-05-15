@@ -5,7 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateProductionOrderDto } from './dtos/create-production-order.dto';
 import { UpdateProductionOrderDto } from './dtos/update-production-order.dto';
-import { RequestNote } from 'src/request-note/entities/request-note.entity';
+import { RequestNote } from '../request-note/entities/request-note.entity';
 import { CreateRequestOrderUnionDto } from './dtos/create-request-order-union.dto';
 import { GetOrdersByRequestDto } from './dtos/get-orders-by-request-serial.dto';
 

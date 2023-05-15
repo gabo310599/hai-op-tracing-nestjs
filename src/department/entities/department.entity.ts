@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
-import { Machine } from 'src/machine/entities/machine.entity';
-import { OperatorDepartmentUnion } from 'src/operator-department-union/entities/operator-department-union.entity';
-import { Process } from 'src/process/entities/process.entity';
+import { Machine } from '../../machine/entities/machine.entity';
+import { OperatorDepartmentUnion } from '../../operator-department-union/entities/operator-department-union.entity';
+import { Process } from '../../process/entities/process.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity('departments')
