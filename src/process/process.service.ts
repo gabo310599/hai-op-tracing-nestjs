@@ -1,11 +1,11 @@
 /* eslint-disable prettier/prettier */
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Department } from 'src/department/entities/department.entity';
-import { Machine } from 'src/machine/entities/machine.entity';
-import { Operator } from 'src/operator/entities/operator.entity';
-import { ProductionOrder } from 'src/production-order/entities/production-order.entity';
-import { RequestNote } from 'src/request-note/entities/request-note.entity';
+import { Department } from '../department/entities/department.entity';
+import { Machine } from '../machine/entities/machine.entity';
+import { Operator } from '../operator/entities/operator.entity';
+import { ProductionOrder } from '../production-order/entities/production-order.entity';
+import { RequestNote } from '../request-note/entities/request-note.entity';
 import { Repository } from 'typeorm';
 import { CreateProcessDto } from './dtos/create-process.dto';
 import { UpdateProcessDto } from './dtos/update-process.dto';
