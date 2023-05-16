@@ -6,7 +6,6 @@ import { Auth } from '../common/decorators/auth.decorator';
 import { UserDecorator } from '../common/decorators/user.decorator';
 import { User } from '../user/entities/user.entity';
 import { AuthService } from './auth.service';
-import { LoginDto } from './dtos/login.dto';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 
 @ApiTags('Auth Module')
@@ -19,7 +18,7 @@ export class AuthController {
 
     @UseGuards(LocalAuthGuard)
     @Post('/login')
-    async login( @UserDecorator() user: User, @Body() dto: LoginDto){
+    async login( @UserDecorator() user: User){
 
         const data = await this.authService.login(user);
 

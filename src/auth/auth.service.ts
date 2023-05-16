@@ -43,7 +43,7 @@ export class AuthService {
 
             return{
                 user,
-                accessToken: this.jwtService.sign(payload)
+                accessToken: await this.jwtService.sign(payload)
             }
 
         }catch(error){

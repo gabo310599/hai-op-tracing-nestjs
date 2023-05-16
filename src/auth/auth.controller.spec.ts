@@ -7,7 +7,8 @@ describe('AuthController', () => {
 
   let controller: AuthController;
 
-  const mockAuthService = {};
+  const mockAuthService = {
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -21,7 +22,11 @@ describe('AuthController', () => {
     controller = module.get<AuthController>(AuthController);
   });
 
+  //Test unitario por defecto de controlador
   it('should be defined', () => {
     expect(controller).toBeDefined();
   });
+
+
+
 });
