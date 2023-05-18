@@ -158,4 +158,11 @@ export class ProcessController {
     getOrderWithoutCheckIn(){
         return this.processService.getOrderWithoutCheckIn();
     }
+
+    //Endpoint que devuelve la cantidad de pedidos nuevos que hay en el sistema.
+    @Auth()
+    @Get('/get/new-request-count')
+    getNewRequestCount(){
+        return this.processService.getNewRequestCount();
+    }
 }

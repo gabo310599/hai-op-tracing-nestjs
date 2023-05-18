@@ -1040,4 +1040,42 @@ export class ProcessService {
     };
   }
 
+  //Metodo que calcula la cantidad de pedidos nuevos que hay en el sistema
+  async getNewRequestCount(){
+
+    const department = await this.departmentRepository.findOne({
+      where:{
+        name: "Diseño Gráfico"
+      }
+    })
+
+    if(!department) throw new NotFoundException("No se encuentra el registro de departamento.");
+
+    let data = await this.processRepository.find({
+      where:{
+        department: department
+      }
+    })
+
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].date_in || data[i].date_out) delete data[i];
+    }
+
+    data = data.filter(function (x) {
+      return x !== undefined;
+    });
+
+    let requestCount = 0;
+
+    data.map(function(){
+      requestCount++
+    })
+
+    return {
+      msg: 'Peticion correcta',
+      data: requestCount
+    };
+
+  }
+
 }
