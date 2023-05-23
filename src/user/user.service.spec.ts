@@ -15,7 +15,7 @@ describe('UserService', () => {
     //Create
     create: jest.fn((dto) =>{
       return{
-        id: "nfdjfnds",
+        id: "create",
         user_name: dto.user_name,
         operator: dto.operator,
         roles: dto.roles       
@@ -23,8 +23,14 @@ describe('UserService', () => {
     }),
 
     //findOneBy
-    findOneBy: jest.fn(() => {
-        return null  
+    findOneBy: jest.fn((dto) => {
+      console.log(dto)
+      if(dto.user_name === "usuario_prueba")
+        return null
+      else
+        if(dto.user_name === "admin" || dto.user_name === "usuario_update")
+          return null
+        
     }),
 
     //save
@@ -76,7 +82,7 @@ describe('UserService', () => {
       {
         msg: expect.any(String),
         data: {
-          id: "nfdjfnds",
+          id: "create",
           user_name: "usuario_prueba",
           operator: { operator_id: "vfdkfdvdsvdsvmdfkvmdf"},
           roles: [AppRoles.AUTHOR]
@@ -84,6 +90,24 @@ describe('UserService', () => {
       }
     )
   });
+
+  // //Test unitario que actualiza un usuario
+  // it('should update and return a user', async () => {
+    
+  //   const dto = {
+  //     user_name: "usuario_update",
+  //     status: true,
+  //     operator_id: "vfdkfdvdsvdsvmdfkvmdf" 
+  //   }
+
+  //   expect( await service.updateOne("update", dto)).toEqual({
+  //     msg: expect.any(String),
+  //     data:{
+  //       status: true,
+  //       operator_id: "vfdkfdvdsvdsvmdfkvmdf" 
+  //     }
+  //   })
+  // })
 
 
 });
