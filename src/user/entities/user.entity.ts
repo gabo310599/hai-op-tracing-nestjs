@@ -8,6 +8,11 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, BeforeInsert,
 @Entity('users')
 export class User{
 
+    constructor(user_name: string, password: string){
+        this.user_name = user_name;
+        this.password = password;
+    }
+
     @PrimaryGeneratedColumn("uuid")
     id: string;
 

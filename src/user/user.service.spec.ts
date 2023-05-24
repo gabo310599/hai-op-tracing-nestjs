@@ -5,7 +5,6 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Operator } from '../operator/entities/operator.entity';
 import { AppRoles } from '../app.roles';
-import { CreateUserDto } from './dtos/create-user.dto';
 
 describe('UserService', () => {
 
@@ -23,26 +22,45 @@ describe('UserService', () => {
     }),
 
     //findOneBy
-    findOneBy: jest.fn((dto) => {
-      console.log(dto)
-      if(dto.user_name === "usuario_prueba")
+    findOneBy: jest.fn((data) => {
+
+      if(data.user_name === "create_user")
         return null
-      else
-        if(dto.user_name === "admin" || dto.user_name === "usuario_update")
-          return null
-        
+      if(data.user_name === "admin")
+        return {id: "admin"}
+      if(data.user_name === "update_user")
+        return null
+      if(data.id === "update")
+         return new User("update_user", "update_password")
+           
     }),
 
     //save
     save: jest.fn( (dto) => {
       return {...dto}    
+    }),
+
+    //delete
+    delete: jest.fn( (data) => {
+      return data
+    }),
+
+    //findOne
+    findOne: jest.fn( (data) => {
+      
+      if(data.where.id === "read")
+        return {
+          ...data.where,
+          user_name: "user_name",
+          password: "password"
+        }
     })
 
   };
   const mockOperatorRepository = {
       //findOneBy
       findOneBy: jest.fn( () => {
-        return {operator_id: "vfdkfdvdsvdsvmdfkvmdf"}    
+        return new Operator()   
       })
   }
 
@@ -69,45 +87,73 @@ describe('UserService', () => {
   });
 
   //Test unitario que crea un usuario
-  it('should create and return a user', async () => {
+  it('should create a user', async () => {
 
-    const dto = new CreateUserDto(
-      "usuario_prueba",
-      "password_prueba",
-      "vfdkfdvdsvdsvmdfkvmdf",
-      [AppRoles.AUTHOR]
-    )
+    const dto = {
+      user_name: "create_user",
+      password: "create_password",
+      operator_id: "operator_id",
+      roles: [AppRoles.ADMIN]
+    }
 
     expect(await service.createOne(dto)).toEqual(
       {
         msg: expect.any(String),
         data: {
           id: "create",
-          user_name: "usuario_prueba",
-          operator: { operator_id: "vfdkfdvdsvdsvmdfkvmdf"},
-          roles: [AppRoles.AUTHOR]
+          user_name: "create_user",
+          operator: expect.any(Operator),
+          roles: [AppRoles.ADMIN]
         } 
       }
     )
   });
 
-  // //Test unitario que actualiza un usuario
-  // it('should update and return a user', async () => {
+  //Test unitario que lee un usuario
+  it('should return a user', async () => {
+    expect( await service.getOne("read") ).toEqual(
+      {
+        msg: expect.any(String),
+        data: {
+          id: "read",
+          user_name: "user_name",
+          password: "password"
+        }
+      }
+    )
+  })
+
+  //Test unitario que actualiza un usuario
+  it('should update a user', async () => {
     
-  //   const dto = {
-  //     user_name: "usuario_update",
-  //     status: true,
-  //     operator_id: "vfdkfdvdsvdsvmdfkvmdf" 
-  //   }
+    const dto = {
+      user_name: "update_user",
+      password: "update_password",
+      operator_id: "operator_id",
+      roles: [AppRoles.ADMIN],
+      status: true
+    }
 
-  //   expect( await service.updateOne("update", dto)).toEqual({
-  //     msg: expect.any(String),
-  //     data:{
-  //       status: true,
-  //       operator_id: "vfdkfdvdsvdsvmdfkvmdf" 
-  //     }
-  //   })
-  // })
+    expect( await service.updateOne("update", dto)).toEqual({
+      msg: expect.any(String),
+      data:{
+        user_name: "update_user",
+        password: "update_password",
+        operator_id: "operator_id",
+        roles: [AppRoles.ADMIN],
+        status: true
+      }
+    })
+  })
 
+  //Test unitario que elimina un usuario
+  it('should delete a user', async () => {
+    expect( await service.deleteOne("delete") ).toEqual(
+      {
+        msg: expect.any(String),
+        data: "delete"
+      }
+    )
+  })
 
 });
