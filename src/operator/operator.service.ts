@@ -37,27 +37,43 @@ export class OperatorService {
 
     //Metodo que crea un registro
     async createOne(dto: CreateOperatorDto) {
-        const operator = this.operatorRepository.create(dto);
-        const data = await this.operatorRepository.save(operator);
-        return {
-            msg: 'Peticion correcta',
-            data: data,
-        };
+
+        try{
+
+            const operator = this.operatorRepository.create(dto);
+            const data = await this.operatorRepository.save(operator);
+            return {
+                msg: 'Peticion correcta',
+                data: data,
+            };
+            
+        }catch(error){
+            console.log(error.message)
+        }
+
     }
 
     //Metodo que actualiza un registro especifico
     async updateOne(id: string, dto: UpdateOperatorDto) {
-        const operator = await this.operatorRepository.findOneBy({ id: id });
 
-        if (!operator) throw new NotFoundException('El registro no existe');
+        try{
 
-        const updatedOperator = Object.assign(operator, dto);
-        const data = await this.operatorRepository.save(updatedOperator);
+            const operator = await this.operatorRepository.findOneBy({ id: id });
 
-        return {
-            msg: 'Peticion correcta',
-            data: data,
-        };
+            if (!operator) throw new NotFoundException('El registro no existe');
+    
+            const updatedOperator = Object.assign(operator, dto);
+            const data = await this.operatorRepository.save(updatedOperator);
+    
+            return {
+                msg: 'Peticion correcta',
+                data: data,
+            };
+            
+        }catch(error){
+            console.log(error.message)
+        }
+        
     }
 
     //Metodo que elimina un registro especifico

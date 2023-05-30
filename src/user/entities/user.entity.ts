@@ -1,20 +1,20 @@
 /* eslint-disable prettier/prettier */
 import { hash } from 'bcryptjs';
-import { AppRoles } from 'src/app.roles';
-import { Log } from 'src/log/entities/log.entity';
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, BeforeInsert, BeforeUpdate, OneToMany } from 'typeorm';
+import { AppRoles } from '../../app.roles';
+import { Log } from '../../log/entities/log.entity';
+import { Operator } from '../../operator/entities/operator.entity';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, BeforeInsert, BeforeUpdate, OneToMany, JoinColumn, OneToOne } from 'typeorm';
 
 @Entity('users')
 export class User{
 
+    constructor(user_name: string, password: string){
+        this.user_name = user_name;
+        this.password = password;
+    }
+
     @PrimaryGeneratedColumn("uuid")
     id: string;
-
-    @Column({type: 'varchar', length: 30})
-    name: string;
-
-    @Column({type: 'varchar', length: 30})
-    last_name: string;
 
     @Column({type: 'varchar', length: 30, nullable: false, unique: true})
     user_name: string;
@@ -30,6 +30,10 @@ export class User{
 
     @CreateDateColumn({type: "timestamp"})
     created_at: Date;
+
+    @OneToOne(() => Operator)
+    @JoinColumn()
+    operator: Operator
 
     @OneToMany(() => Log, (log) => log.user )
     log: Log[];

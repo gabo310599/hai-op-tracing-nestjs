@@ -41,33 +41,63 @@ export class DepartmentService {
 
     //Metodo que crea un registro
     async createOne(dto: CreateDepartmentDto) {
-        const department = this.departmentRepository.create(dto);
-        const data = await this.departmentRepository.save(department);
-        return {
-            msg: 'Peticion correcta',
-            data: data,
-        };
+
+        try{
+
+            const department = this.departmentRepository.create(dto);
+            const data = await this.departmentRepository.save(department);
+            return {
+                msg: 'Peticion correcta',
+                data: data,
+            };
+
+        }catch(error){
+            console.log(error.message)
+        }
     }
 
     //Metodo que actualiza un registro especifico
     async updateOne(id: string, dto: UpdateDepartmentDto) {
-        const department = await this.departmentRepository.findOneBy({ id: id });
 
-        if (!department) throw new NotFoundException('El registro no existe');
+        try{
+            
+            const department = await this.departmentRepository.findOneBy({ id: id });
 
-        const updatedDepartment = Object.assign(department, dto);
-        const data = await this.departmentRepository.save(updatedDepartment);
-
-        return {
-            msg: 'Peticion correcta',
-            data: data,
-        };
+            if (!department) throw new NotFoundException('El registro no existe');
+    
+            const updatedDepartment = Object.assign(department, dto);
+            const data = await this.departmentRepository.save(updatedDepartment);
+    
+            return {
+                msg: 'Peticion correcta',
+                data: data,
+            };
+            
+        }catch(error){
+            console.log(error.message)
+        }
     }
 
     //Metodo que elimina un registro especifico
     async deleteOne(id: string){
         const data = await this.departmentRepository.delete(id);
     
+        return {
+            msg: "Peticion correcta",
+            data: data
+        }
+    }
+
+    //Metodo que retorna la informacion de un departamento por su nombre
+    async getOneByName(department_name: any){
+
+        const data = await this.departmentRepository.findOne({ 
+            where:{
+                name: department_name.name
+            } 
+        })
+        if(!data) throw new NotFoundException("El registro no existe.")
+
         return {
             msg: "Peticion correcta",
             data: data

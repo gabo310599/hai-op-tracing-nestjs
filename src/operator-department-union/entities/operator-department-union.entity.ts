@@ -1,9 +1,9 @@
 /* eslint-disable prettier/prettier */
-import { Department } from 'src/department/entities/department.entity';
-import { Operator } from 'src/operator/entities/operator.entity';
+import { Department } from '../../department/entities/department.entity';
+import { Operator } from '../../operator/entities/operator.entity';
 import { Entity, PrimaryGeneratedColumn, ManyToOne} from 'typeorm';
 
-@Entity('operators-departments-union')
+@Entity('operators_departments_union')
 export class OperatorDepartmentUnion{
 
     constructor(operator: Operator, department: Department){

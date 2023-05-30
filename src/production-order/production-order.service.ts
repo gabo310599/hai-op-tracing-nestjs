@@ -5,7 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateProductionOrderDto } from './dtos/create-production-order.dto';
 import { UpdateProductionOrderDto } from './dtos/update-production-order.dto';
-import { RequestNote } from 'src/request-note/entities/request-note.entity';
+import { RequestNote } from '../request-note/entities/request-note.entity';
 import { CreateRequestOrderUnionDto } from './dtos/create-request-order-union.dto';
 import { GetOrdersByRequestDto } from './dtos/get-orders-by-request-serial.dto';
 
@@ -23,7 +23,11 @@ export class ProductionOrderService {
 
     //Metodo que retorna todos los registros
     async getAll() {
-        const data = await this.productionOrderRepository.find();
+        const data = await this.productionOrderRepository.find({
+            relations: {
+                request: true
+            }
+        });
         return {
             msg: 'Peticion correcta',
             data: data,
@@ -32,7 +36,14 @@ export class ProductionOrderService {
 
     //Metodo que retorna un registro especifico
     async getOne(id: string) {
-        const data = await this.productionOrderRepository.findOneBy({ id: id });
+        const data = await this.productionOrderRepository.findOne({
+            where:{
+                id: id
+            },
+            relations:{
+                request: true
+            }
+        });
 
         if (!data) throw new NotFoundException('El registro no existe');
 
@@ -44,27 +55,41 @@ export class ProductionOrderService {
 
     //Metodo que crea un registro
     async createOne(dto: CreateProductionOrderDto) {
-        const productionOrder = this.productionOrderRepository.create(dto);
-        const data = await this.productionOrderRepository.save(productionOrder);
-        return {
-            msg: 'Peticion correcta',
-            data: data,
-        };
+
+        try{
+
+            const productionOrder = this.productionOrderRepository.create(dto);
+            const data = await this.productionOrderRepository.save(productionOrder);
+            return {
+                msg: 'Peticion correcta',
+                data: data,
+            };
+            
+        }catch(error){
+            console.log(error.message)
+        }
     }
 
     //Metodo que actualiza un registro especifico
     async updateOne(id: string, dto: UpdateProductionOrderDto) {
-        const productionOrder = await this.productionOrderRepository.findOneBy({ id: id });
 
-        if (!productionOrder) throw new NotFoundException('El registro no existe');
+        try{
+            
+            const productionOrder = await this.productionOrderRepository.findOneBy({ id: id });
 
-        const updatedProductionOrder = Object.assign(productionOrder, dto);
-        const data = await this.productionOrderRepository.save(updatedProductionOrder);
-
-        return {
-            msg: 'Peticion correcta',
-            data: data,
-        };
+            if (!productionOrder) throw new NotFoundException('El registro no existe');
+    
+            const updatedProductionOrder = Object.assign(productionOrder, dto);
+            const data = await this.productionOrderRepository.save(updatedProductionOrder);
+    
+            return {
+                msg: 'Peticion correcta',
+                data: data,
+            };
+            
+        }catch(error){
+            console.log(error.message)
+        }  
     }
 
     //Metodo que elimina un registro especifico

@@ -1,10 +1,10 @@
 /* eslint-disable prettier/prettier */
 import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger/dist/decorators';
-import { AppRoles } from 'src/app.roles';
-import { RolesGuard } from 'src/auth/guards/roles.guard';
-import { Auth } from 'src/common/decorators/auth.decorator';
-import { HasRoles } from 'src/common/decorators/role.decorator';
+import { AppRoles } from '../app.roles';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { Auth } from '../common/decorators/auth.decorator';
+import { HasRoles } from '../common/decorators/role.decorator';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { UserService } from './user.service';
@@ -22,7 +22,7 @@ export class UserController {
         return await this.userService.getAll();
     }
 
-    //Endpoint que retornar un solo registro
+    //Endpoint que retorna un solo registro
     @Auth()
     @Get(':id')
     getOne( @Param('id') id: string ){
@@ -30,15 +30,14 @@ export class UserController {
     }
 
     //Endpoint que crea un registro
-    @HasRoles(AppRoles.ADMIN)
-    @UseGuards(RolesGuard)
-    @Auth()
     @Post()
     createOne( @Body() dto: CreateUserDto ){
         return this.userService.createOne(dto);
     }
 
     //Endpoint que actualiza un registro
+    @HasRoles(AppRoles.ADMIN)
+    @UseGuards(RolesGuard)
     @Auth()
     @Put(':id')
     updateOne( @Param('id') id: string, @Body() dto: UpdateUserDto ){
@@ -57,6 +56,23 @@ export class UserController {
     @Get('/find-by/user-name/:user_name')
     getOneByUserName( @Param('user_name') user_name: string ){
         return this.userService.findByUserName(user_name)
+    }
+
+    //Enpoint que retorna si un nombre de usuario existe en la base de datos
+    @Get('/exist/:user_name')
+    async exist( @Param('user_name') user_name: string ){
+        const user =  await this.userService.findByUserName(user_name);
+        if(user)
+            return true;
+        else
+            return false;
+    }
+
+    //Endpoint que retorna un usuario a traves del operario
+    @Auth()
+    @Get('/get-by-operator/:id')
+    getOneByOperator( @Param('id') operator_id: string ){
+        return this.userService.getOneByOperator(operator_id);
     }
 
 }

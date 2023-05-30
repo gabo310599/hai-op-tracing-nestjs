@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Operator } from '../operator/entities/operator.entity';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
@@ -11,6 +12,9 @@ export class UserService {
 
     constructor(
 
+        @InjectRepository(Operator)
+        private readonly operatorRepository: Repository<Operator>,
+
         @InjectRepository(User)
         private readonly userRepository: Repository<User>
 
@@ -18,7 +22,11 @@ export class UserService {
 
     //Metodo que retorna todos los registros
     async getAll() {
-        const data = await this.userRepository.find();
+        const data = await this.userRepository.find({
+            relations: {
+                operator: true
+            }
+        });
         return {
             msg: 'Peticion correcta',
             data: data,
@@ -27,7 +35,14 @@ export class UserService {
 
     //Metodo que retorna un registro especifico
     async getOne(id: string) {
-        const data = await this.userRepository.findOneBy({ id: id });
+        const data = await this.userRepository.findOne({ 
+            where: {
+                id: id
+            },
+            relations:{
+                operator: true
+            }
+         });
 
         if (!data) throw new NotFoundException('El registro no existe');
 
@@ -39,42 +54,62 @@ export class UserService {
 
     //Metodo que crea un registro
     async createOne(dto: CreateUserDto) {
+
+        try{
+            
+            const userExist = await this.userRepository.findOneBy({ user_name: dto.user_name});
+            const operator = await this.operatorRepository.findOneBy({id: dto.operator_id})
+
+            if(userExist) throw new BadRequestException('El nombre de usuario ya existe');
+            if(!operator) throw new NotFoundException('El registor de operador no existe')
+
+            const user = this.userRepository.create(dto);
+            if(dto.operator_id)
+                user.operator = operator
+
+            const data = await this.userRepository.save(user);
+            delete data.password;
+
+            return {
+                msg: 'Peticion correcta',
+                data: data,
+            };
+            
+        }catch(error){
+            console.log(error.message)
+        }  
         
-        const userExist = await this.userRepository.findOneBy({ user_name: dto.user_name});
-
-        if(userExist) throw new BadRequestException('El nombre de usuario ya existe');
-
-        const user = this.userRepository.create(dto);
-        const data = await this.userRepository.save(user);
-        delete data.password;
-
-        return {
-            msg: 'Peticion correcta',
-            data: data,
-        };
     }
 
     //Metodo que actualiza un registro especifico
     async updateOne(id: string, dto: UpdateUserDto) {
 
-        const adminUser = await this.userRepository.findOneBy({user_name: 'admin'});
-        const userExist = await this.userRepository.findOneBy({ user_name: dto.user_name});
+        try{
+            
 
-        if(userExist && dto.user_name) throw new BadRequestException('El usuario ya existe');
+            const adminUser = await this.userRepository.findOneBy({user_name: 'admin'});
+            const userExist = await this.userRepository.findOneBy({ user_name: dto.user_name});
+    
+            if(userExist && dto.user_name) throw new BadRequestException('El usuario ya existe');
+    
+            if(adminUser.id === id) throw new BadRequestException('El usuario admin no se puede actualizar.');
+    
+            const user = await this.userRepository.findOneBy({ id: id });
+    
+            if (!user) throw new NotFoundException('El registro no existe');
+    
+            const updatedUser = Object.assign(user, dto);
+            const data = await this.userRepository.save(updatedUser);
+    
+            return {
+                msg: 'Peticion correcta',
+                data: data,
+            };
+            
+        }catch(error: any){
+            console.log(error.message)
+        } 
 
-        if(adminUser.id === id) throw new BadRequestException('El usuario admin no se puede actualizar.');
-
-        const user = await this.userRepository.findOneBy({ id: id });
-
-        if (!user) throw new NotFoundException('El registro no existe');
-
-        const updatedUser = Object.assign(user, dto);
-        const data = await this.userRepository.save(updatedUser);
-
-        return {
-            msg: 'Peticion correcta',
-            data: data,
-        };
     }
 
     //Metodo que elimina un registro especifico
@@ -101,4 +136,24 @@ export class UserService {
             .addSelect('user.password')
             .getOne()
     }
+
+    //Metodo que devuelve el usuario asociado a un operador especifico
+    async getOneByOperator(operator_id: string){
+        
+        const operator = await this.operatorRepository.findOneBy({id: operator_id});
+
+        if(!operator) throw new NotFoundException("El registro de operador no existe.");
+        
+        const data = await this.userRepository.findOne({
+            where:{
+                operator: operator
+            }
+        })
+
+        return {
+            msg: "Peticion correcta",
+            data: data
+        }
+    }
+
 }

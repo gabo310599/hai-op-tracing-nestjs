@@ -1,18 +1,22 @@
 /* eslint-disable prettier/prettier */
 
 import { IsArray, IsEnum, IsOptional, IsString, MaxLength, MinLength } from "class-validator";
-import { AppRoles } from "src/app.roles";
+import { AppRoles } from "../../app.roles";
 
 
 export class CreateUserDto{
 
-    @IsString()
-    @MaxLength(30)
-    name: string;
-
-    @IsString()
-    @MaxLength(30)
-    last_name: string;
+    constructor( 
+        user_name: string,
+        password: string,
+        operator_id: string,
+        roles: AppRoles[]
+    ){
+        this.user_name = user_name;
+        this.password = password;
+        this.operator_id = operator_id;
+        this.roles = roles;
+    }
 
     @IsString()
     @MaxLength(30)
@@ -20,8 +24,12 @@ export class CreateUserDto{
 
     @IsString()
     @MinLength(5)
-    @MaxLength(150)
+    @MaxLength(100)
     password: string;
+
+    @IsOptional()
+    @IsString()
+    operator_id: string;
     
     @IsOptional()
     @IsArray()

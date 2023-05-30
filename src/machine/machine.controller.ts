@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger/dist/decorators';
-import { Auth } from 'src/common/decorators/auth.decorator';
+import { Auth } from '../common/decorators/auth.decorator';
 import { CreateMachineDto } from './dtos/create-machine.dto';
 import { UpdateMachineDto } from './dtos/update-machine.dto';
 import { MachineService } from './machine.service';
@@ -45,5 +45,12 @@ export class MachineController {
     @Delete(':id')
     deleteOne( @Param('id') id: string ){
         return this.machineService.deleteOne(id);
+    }
+
+    //Endpoint que retorna una lista de maquinas por departamento
+    @Auth()
+    @Get("get/by-department/:id")
+    getMachinesByDepartment( @Param('id') id: string ){
+        return this.machineService.getMachinesByDepartment(id);
     }
 }

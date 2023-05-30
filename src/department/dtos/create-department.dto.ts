@@ -9,4 +9,7 @@ export class CreateDepartmentDto{
     @IsNumber()
     days_time_limit: number;
 
+    @IsNumber()
+    process_turn: number;
+
 }

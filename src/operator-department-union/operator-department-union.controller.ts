@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger/dist/decorators';
-import { Auth } from 'src/common/decorators/auth.decorator';
+import { Auth } from '../common/decorators/auth.decorator';
 import { CreateOperatorDepartmentUnionDto } from './dtos/create-operator-department-union.dto';
 import { OperatorDepartmentUnionService } from './operator-department-union.service';
 
@@ -51,5 +51,13 @@ export class OperatorDepartmentUnionController {
     @Get('department-by-operator/:id')
     getDepartmentsByOperator( @Param('id') id: string){
         return this.operatorDepartmentService.getDepartmentsByOperator(id);
+    }
+
+    //Endpoint que elimina un registro especifico segun el operador y el departamento
+    @Auth()
+    @Post('/delete/by-operator-and-department')
+    deleteByDepartmentAndOperator( @Body() dto: CreateOperatorDepartmentUnionDto){
+
+        return this.operatorDepartmentService.deleteByDepartmentAndOperator(dto);
     }
 }

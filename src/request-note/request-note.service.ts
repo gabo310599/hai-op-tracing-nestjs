@@ -39,27 +39,58 @@ export class RequestNoteService {
 
     //Metodo que crea un registro
     async createOne(dto: CreateRequestNoteDto) {
-        const requestNote = this.requestNoteRepository.create(dto);
-        const data = await this.requestNoteRepository.save(requestNote);
-        return {
-            msg: 'Peticion correcta',
-            data: data,
-        };
+
+        try{
+
+            const duplicate = await this.requestNoteRepository.findOne({
+                where:{
+                    serial: dto.serial,
+                    characters: dto.characters
+                }
+            })
+
+            if(duplicate) {
+                return {
+                    msg: 'Error.',
+                    type: 'El pedido ya se encuentra registrado, por favor ingresar un nuevo pedido.'
+                }
+            };
+
+            const requestNote = this.requestNoteRepository.create(dto);
+            const data = await this.requestNoteRepository.save(requestNote);
+            return {
+                msg: 'Peticion correcta',
+                data: data,
+            };
+            
+        }catch(error){
+            console.log(error.message)
+            return error;
+        } 
+
     }
 
     //Metodo que actualiza un registro especifico
     async updateOne(id: string, dto: UpdateRequestNoteDto) {
-        const requestNote = await this.requestNoteRepository.findOneBy({ id: id });
 
-        if (!requestNote) throw new NotFoundException('El registro no existe');
+        try{
+            
+            const requestNote = await this.requestNoteRepository.findOneBy({ id: id });
 
-        const updatedRequestNote = Object.assign(requestNote, dto);
-        const data = await this.requestNoteRepository.save(updatedRequestNote);
+            if (!requestNote) throw new NotFoundException('El registro no existe');
+    
+            const updatedRequestNote = Object.assign(requestNote, dto);
+            const data = await this.requestNoteRepository.save(updatedRequestNote);
+    
+            return {
+                msg: 'Peticion correcta',
+                data: data,
+            };
+            
+        }catch(error){
+            console.log(error.message)
+        }  
 
-        return {
-            msg: 'Peticion correcta',
-            data: data,
-        };
     }
 
     //Metodo que elimina un registro especifico

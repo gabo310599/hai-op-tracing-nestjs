@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
-import { UserService } from 'src/user/user.service';
+import { UserService } from '../user/user.service';
 import { compare} from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt/dist';
 
@@ -29,19 +29,26 @@ export class AuthService {
     //Metodo de login
     async login(user: any){
 
-        let {id} = user;
+        try{
+
+            let {id} = user;
         
 
-        if(!id){
-            const {data} = user;
-            id = data.id
-        }
+            if(!id){
+                const {data} = user;
+                id = data.id
+            }
 
-        const payload = { sub: id }
+            const payload = { sub: id }
 
-        return{
-            user,
-            accessToken: this.jwtService.sign(payload)
-        }
+            return{
+                user,
+                accessToken: await this.jwtService.sign(payload)
+            }
+
+        }catch(error){
+            console.log(error.message);
+        };
+        
     }
 }

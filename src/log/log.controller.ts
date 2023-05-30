@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger/dist/decorators';
-import { Auth } from 'src/common/decorators/auth.decorator';
+import { Auth } from '../common/decorators/auth.decorator';
 import { CreateLogDto } from './dtos/create-log.dto';
 import { LogService } from './log.service';
 

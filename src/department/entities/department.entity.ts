@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
-import { Machine } from 'src/machine/entities/machine.entity';
-import { OperatorDepartmentUnion } from 'src/operator-department-union/entities/operator-department-union.entity';
-import { Process } from 'src/process/entities/process.entity';
+import { Machine } from '../../machine/entities/machine.entity';
+import { OperatorDepartmentUnion } from '../../operator-department-union/entities/operator-department-union.entity';
+import { Process } from '../../process/entities/process.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity('departments')
@@ -15,6 +15,9 @@ export class Department{
 
     @Column({type: 'decimal', precision: 10, scale: 2, default: 0})
     days_time_limit: number;
+
+    @Column({type: 'int',  default: 0})
+    process_turn: number;
 
     @OneToMany(() => Machine, (machine) => machine.department)
     machine: Machine[];

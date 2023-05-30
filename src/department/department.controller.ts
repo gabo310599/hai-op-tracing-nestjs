@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger/dist/decorators';
-import { Auth } from 'src/common/decorators/auth.decorator';
+import { Auth } from '../common/decorators/auth.decorator';
 import { DepartmentService } from './department.service';
 import { CreateDepartmentDto } from './dtos/create-department.dto';
 import { UpdateDepartmentDto } from './dtos/update-department.dto';
@@ -45,5 +45,12 @@ export class DepartmentController {
     @Delete(':id')
     deleteOne( @Param('id') id: string ){
         return this.departmentService.deleteOne(id);
+    }
+
+    //Endpoint que obtiene un departamento por su nombre
+    @Auth()
+    @Post('/get/by-name')
+    getOneByName( @Body() department_name: any ){
+        return this.departmentService.getOneByName(department_name);
     }
 }

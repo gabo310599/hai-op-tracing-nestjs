@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger/dist/decorators';
-import { Auth } from 'src/common/decorators/auth.decorator';
+import { Auth } from '../common/decorators/auth.decorator';
 import { CreateProductionOrderDto } from './dtos/create-production-order.dto';
 import { CreateRequestOrderUnionDto } from './dtos/create-request-order-union.dto';
 import { GetOrdersByRequestDto } from './dtos/get-orders-by-request-serial.dto';
@@ -65,7 +65,7 @@ export class ProductionOrderController {
 
     //Endpoint que devuelve todas las ordenes asociadas a un pedido (serial + letra)
     @Auth()
-    @Get('/all/orders-by-request')
+    @Post('/get/orders-by-request')
     getOrdersByRequest( @Body() dto: GetOrdersByRequestDto){
         return this.productionOrderService.getOrdersByRequest(dto);
     }

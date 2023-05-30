@@ -1,9 +1,9 @@
 /* eslint-disable prettier/prettier */
-import { Department } from 'src/department/entities/department.entity';
-import { Machine } from 'src/machine/entities/machine.entity';
-import { Operator } from 'src/operator/entities/operator.entity';
-import { ProductionOrder } from 'src/production-order/entities/production-order.entity';
-import { RequestNote } from 'src/request-note/entities/request-note.entity';
+import { Department } from '../../department/entities/department.entity';
+import { Machine } from '../../machine/entities/machine.entity';
+import { Operator } from '../../operator/entities/operator.entity';
+import { ProductionOrder } from '../../production-order/entities/production-order.entity';
+import { RequestNote } from '../../request-note/entities/request-note.entity';
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne} from 'typeorm';
 
 @Entity('processes')
@@ -35,5 +35,8 @@ export class Process{
  
     @Column({type:'decimal', precision: 10, scale: 2, default: 0})
     hours_in: number;
+
+    @Column({type: 'varchar', length: 500, nullable: true})
+    observation: string;
 
 }

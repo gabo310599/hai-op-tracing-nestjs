@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm/dist';
-import { RequestNote } from 'src/request-note/entities/request-note.entity';
+import { RequestNote } from '../request-note/entities/request-note.entity';
 import { ProductionOrder } from './entities/production-order.entity';
 import { ProductionOrderController } from './production-order.controller';
 import { ProductionOrderService } from './production-order.service';

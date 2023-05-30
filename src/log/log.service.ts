@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/user/entities/user.entity';
+import { User } from '../user/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateLogDto } from './dtos/create-log.dto';
 import { Log } from './entities/log.entity';
@@ -70,20 +70,27 @@ export class LogService {
     }
 
     //Metodo que crea un registro en el log
-    async createOne(dto: CreateLogDto) {
+    async createOne(dto: CreateLogDto) { 
         
-        const user = await this.userRepository.findOneBy({ id: dto.user_id});
+        try{
+            
+            const user = await this.userRepository.findOneBy({ id: dto.user_id});
 
-        const log = new Log(user);
-        log.user = user;
-        log.log = dto.log;
-        log.log_date = new Date();
-        
-        const data = await this.logRepository.save(log);
+            const log = new Log(user);
+            log.user = user;
+            log.log = dto.log;
+            log.log_date = new Date();
+            
+            const data = await this.logRepository.save(log);
+    
+            return {
+                msg: 'Peticion correcta',
+                data: data,
+            };
+            
+        }catch(error){
+            console.log(error.message)
+        }
 
-        return {
-            msg: 'Peticion correcta',
-            data: data,
-        };
     }
 }
