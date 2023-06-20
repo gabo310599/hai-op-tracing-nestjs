@@ -4,6 +4,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { MachineController } from './machine.controller';
 import { MachineService } from './machine.service';
 import { AreaEnum } from './enums/area.enum';
+import { WarpedEnum } from '../production-order/enums/warped.enum';
 
 describe('MachineController', () => {
   
@@ -67,6 +68,7 @@ describe('MachineController', () => {
       model: 'Modelo',
       number: '1',
       area: AreaEnum.ETIQUETAS,
+      warped_color: WarpedEnum.NEGRO,
       department_id: "dvkmldsmv",
       total_white_hours: 5,
       total_black_hours: 5,
@@ -80,6 +82,7 @@ describe('MachineController', () => {
         model: 'Modelo',
         number: '1',
         area: AreaEnum.ETIQUETAS,
+        warped_color: WarpedEnum.NEGRO,
         department_id: "dvkmldsmv",
         total_white_hours: 5,
         total_black_hours: 5,

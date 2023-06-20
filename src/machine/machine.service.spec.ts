@@ -5,6 +5,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Machine } from './entities/machine.entity';
 import { Department } from '../department/entities/department.entity';
 import { AreaEnum } from './enums/area.enum';
+import { WarpedEnum } from '../production-order/enums/warped.enum';
 
 describe('MachineService', () => {
   let service: MachineService;
@@ -87,6 +88,7 @@ describe('MachineService', () => {
       model: 'model',
       number: 'number',
       area: AreaEnum.ETIQUETAS,
+      warped_color: WarpedEnum.NEGRO,
       department_id: 'department_id',
       total_white_hours: 0,
       total_black_hours: 0,
