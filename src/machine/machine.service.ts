@@ -66,6 +66,7 @@ export class MachineService {
             machine.model = dto.model;
             machine.area = dto.area;
             machine.number = dto.number;
+            machine.warped_color = dto.warped_color;
             
             const data = await this.machineRepository.save(machine);
 

@@ -103,6 +103,7 @@ describe('MachineService', () => {
         model: 'model',
         number: 'number',
         area: AreaEnum.ETIQUETAS,
+        warped_color: WarpedEnum.NEGRO,
         department: expect.any(Department),
       },
     });
