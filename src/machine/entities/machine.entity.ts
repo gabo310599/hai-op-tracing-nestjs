@@ -3,6 +3,7 @@ import { Department } from '../../department/entities/department.entity';
 import { Process } from '../../process/entities/process.entity';
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany} from 'typeorm';
 import { AreaEnum } from '../enums/area.enum';
+import { WarpedEnum } from '../../production-order/enums/warped.enum';
 
 @Entity('machines')
 export class Machine{
@@ -25,6 +26,9 @@ export class Machine{
 
     @Column({type: 'enum', enum: AreaEnum})
     area: AreaEnum;
+
+    @Column({type: 'enum', enum: WarpedEnum, nullable: true})
+    warped_color: WarpedEnum;
 
     @Column({type: 'int', default: 0})
     total_points: number;

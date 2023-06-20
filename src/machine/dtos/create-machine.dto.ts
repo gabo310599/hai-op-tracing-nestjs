@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { IsNumber, IsOptional, IsString } from 'class-validator';
 import { AreaEnum } from '../enums/area.enum';
+import { WarpedEnum } from '../../production-order/enums/warped.enum';
 
 export class CreateMachineDto{
 
@@ -15,6 +16,10 @@ export class CreateMachineDto{
 
     @IsString()
     area: AreaEnum;
+
+    @IsOptional()
+    @IsString()
+    warped_color: WarpedEnum;
 
     @IsString()
     department_id: string;
