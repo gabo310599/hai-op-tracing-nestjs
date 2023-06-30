@@ -165,4 +165,18 @@ export class ProcessController {
     getNewRequestCount(){
         return this.processService.getNewRequestCount();
     }
+
+    //Endpoint que devuelve los pedidos antes de entrar a tejeduria.
+    @Auth()
+    @Get('/get/request-before-weaving')
+    getRequestBeforeWeaving(){
+        return this.processService.getRequestBeforeWeaving();
+    }
+
+    //Endpoint que devuelve las ordenes antes de entrar a tejeduria.
+    @Auth()
+    @Get('/get/order-before-weaving')
+    getOrderBeforeWeaving(){
+        return this.processService.getOrderBeforeWeaving();
+    }
 }

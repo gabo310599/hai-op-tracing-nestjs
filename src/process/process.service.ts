@@ -10,6 +10,7 @@ import { Repository } from 'typeorm';
 import { CreateProcessDto } from './dtos/create-process.dto';
 import { UpdateProcessDto } from './dtos/update-process.dto';
 import { Process } from './entities/process.entity';
+import { Between } from 'typeorm';
 
 @Injectable()
 export class ProcessService {
@@ -991,7 +992,6 @@ export class ProcessService {
       },
     });
 
-
     for (let i = 0; i < data.length; i++) {
       if (data[i].date_in || data[i].date_out) delete data[i];
     }
@@ -1041,21 +1041,23 @@ export class ProcessService {
   }
 
   //Metodo que calcula la cantidad de pedidos nuevos que hay en el sistema
-  async getNewRequestCount(){
-
+  async getNewRequestCount() {
     const department = await this.departmentRepository.findOne({
-      where:{
-        name: "Diseño Gráfico"
-      }
-    })
+      where: {
+        name: 'Diseño Gráfico',
+      },
+    });
 
-    if(!department) throw new NotFoundException("No se encuentra el registro de departamento.");
+    if (!department)
+      throw new NotFoundException(
+        'No se encuentra el registro de departamento.',
+      );
 
     let data = await this.processRepository.find({
-      where:{
-        department: department
-      }
-    })
+      where: {
+        department: department,
+      },
+    });
 
     for (let i = 0; i < data.length; i++) {
       if (data[i].date_in || data[i].date_out) delete data[i];
@@ -1067,15 +1069,209 @@ export class ProcessService {
 
     let requestCount = 0;
 
-    data.map(function(){
-      requestCount++
-    })
+    data.map(function () {
+      requestCount++;
+    });
 
     return {
       msg: 'Peticion correcta',
-      data: requestCount
+      data: requestCount,
     };
-
   }
 
+  //Metodo que obtiene los pedidos antes de entrar a tejeduria
+  async getRequestBeforeWeaving() {
+    const departments = await this.departmentRepository.find({
+      where: {
+        process_turn: Between(1, 5),
+      },
+    });
+
+    if (!departments)
+      throw new NotFoundException('No se encontraron los departamentos.');
+
+    //Diseno grafico
+    let graphicDesignProcesses = await this.processRepository.find({
+      where: {
+        department: departments[0],
+      },
+      relations: {
+        department: true,
+        request: true,
+      },
+    });
+
+    for (let i = 0; i < graphicDesignProcesses.length; i++) {
+      if (graphicDesignProcesses[i].date_out) delete graphicDesignProcesses[i];
+    }
+
+    graphicDesignProcesses = graphicDesignProcesses.filter(function (x) {
+      return x !== undefined;
+    });
+
+    //Diseno textil
+    let textileDesignProcesses = await this.processRepository.find({
+      where: {
+        department: departments[1],
+      },
+      relations: {
+        department: true,
+        request: true,
+      },
+    });
+
+    for (let i = 0; i < textileDesignProcesses.length; i++) {
+      if (textileDesignProcesses[i].date_out) delete textileDesignProcesses[i];
+    }
+
+    textileDesignProcesses = textileDesignProcesses.filter(function (x) {
+      return x !== undefined;
+    });
+
+    //Generar OP
+    let generateOPProcesses = await this.processRepository.find({
+      where: {
+        department: departments[2],
+      },
+      relations: {
+        department: true,
+        request: true,
+      },
+    });
+
+    for (let i = 0; i < generateOPProcesses.length; i++) {
+      if (generateOPProcesses[i].date_out) delete generateOPProcesses[i];
+    }
+
+    generateOPProcesses = generateOPProcesses.filter(function (x) {
+      return x !== undefined;
+    });
+
+    //Imprimir OP
+    let printOPProcesses = await this.processRepository.find({
+      where: {
+        department: departments[3],
+      },
+      relations: {
+        department: true,
+        request: true,
+      },
+    });
+
+    for (let i = 0; i < printOPProcesses.length; i++) {
+      if (printOPProcesses[i].date_out) delete printOPProcesses[i];
+    }
+
+    printOPProcesses = printOPProcesses.filter(function (x) {
+      return x !== undefined;
+    });
+
+    //Tejeduria
+    let weavingProcesses = await this.processRepository.find({
+      where: {
+        department: departments[4],
+      },
+      relations: {
+        department: true,
+        request: true,
+      },
+    });
+
+    for (let i = 0; i < weavingProcesses.length; i++) {
+      if (weavingProcesses[i].date_out || weavingProcesses[i].date_in)
+        delete weavingProcesses[i];
+    }
+
+    weavingProcesses = weavingProcesses.filter(function (x) {
+      return x !== undefined;
+    });
+
+    const data = [];
+
+    for (let i = 0; i < graphicDesignProcesses.length; i++)
+      data.push(graphicDesignProcesses[i]);
+
+    for (let i = 0; i < textileDesignProcesses.length; i++)
+      data.push(textileDesignProcesses[i]);
+
+    for (let i = 0; i < generateOPProcesses.length; i++)
+      data.push(generateOPProcesses[i]);
+
+    for (let i = 0; i < printOPProcesses.length; i++)
+      data.push(printOPProcesses[i]);
+
+    for (let i = 0; i < weavingProcesses.length; i++)
+      data.push(weavingProcesses[i]);
+
+    return {
+      msg: 'Peticion correcta',
+      data: data,
+    };
+  }
+
+  //Metodo que obtiene las ordens antes de entrar a tejeduria
+  async getOrderBeforeWeaving() {
+    const departments = await this.departmentRepository.find({
+      where: {
+        process_turn: Between(4,5)
+      },
+    });
+
+    if (!departments)
+      throw new NotFoundException('No se encontraron los departamentos.');
+
+    //Imprimir OP
+    let printOPProcesses = await this.processRepository.find({
+      where: {
+        department: departments[0],
+      },
+      relations: {
+        department: true,
+        request: true,
+        order: true
+      },
+    });
+
+    for (let i = 0; i < printOPProcesses.length; i++) {
+      if (printOPProcesses[i].date_out) delete printOPProcesses[i];
+    }
+
+    printOPProcesses = printOPProcesses.filter(function (x) {
+      return x !== undefined;
+    });
+
+    //Tejeduria
+    let weavingProcesses = await this.processRepository.find({
+      where: {
+        department: departments[1],
+      },
+      relations: {
+        department: true,
+        request: true,
+        order: true
+      },
+    });
+
+    for (let i = 0; i < weavingProcesses.length; i++) {
+      if (weavingProcesses[i].date_out || weavingProcesses[i].date_in)
+        delete weavingProcesses[i];
+    }
+
+    weavingProcesses = weavingProcesses.filter(function (x) {
+      return x !== undefined;
+    });
+
+    const data = [];
+
+    for (let i = 0; i < printOPProcesses.length; i++)
+      data.push(printOPProcesses[i]);
+
+    for (let i = 0; i < weavingProcesses.length; i++)
+      data.push(weavingProcesses[i]);
+
+    return {
+      msg: 'Peticion correcta',
+      data: data,
+    };
+  }
 }
