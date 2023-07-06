@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 
-import { IsArray, IsEnum, IsOptional, IsString, MaxLength, MinLength } from "class-validator";
+import { IsArray, IsBoolean, IsEnum, IsOptional, IsString, MaxLength, MinLength } from "class-validator";
 import { AppRoles } from "../../app.roles";
 
 
@@ -31,6 +31,10 @@ export class CreateUserDto{
     @IsString()
     operator_id: string;
     
+    @IsOptional()
+    @IsBoolean()
+    status: boolean;
+
     @IsOptional()
     @IsArray()
     @IsEnum(AppRoles, {

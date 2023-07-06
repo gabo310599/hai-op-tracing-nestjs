@@ -17,7 +17,8 @@ describe('UserService', () => {
         id: "create",
         user_name: dto.user_name,
         operator: dto.operator,
-        roles: dto.roles       
+        roles: dto.roles,
+        status: false       
       }
     }),
 
@@ -93,7 +94,8 @@ describe('UserService', () => {
       user_name: "create_user",
       password: "create_password",
       operator_id: "operator_id",
-      roles: [AppRoles.ADMIN]
+      roles: [AppRoles.ADMIN],
+      status: false
     }
 
     expect(await service.createOne(dto)).toEqual(
@@ -103,7 +105,8 @@ describe('UserService', () => {
           id: "create",
           user_name: "create_user",
           operator: expect.any(Operator),
-          roles: [AppRoles.ADMIN]
+          roles: [AppRoles.ADMIN],
+          status: false
         } 
       }
     )

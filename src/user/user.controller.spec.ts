@@ -65,6 +65,7 @@ describe('UserController', () => {
       password: 'prueba',
       operator_id: 'dvfdvads',
       roles: [],
+      status: false
     };
 
     expect(await controller.createOne(dto)).toEqual({
@@ -74,6 +75,7 @@ describe('UserController', () => {
         password: 'prueba',
         operator_id: 'dvfdvads',
         roles: [],
+        status: false
       },
     });
 
