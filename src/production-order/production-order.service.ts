@@ -67,6 +67,10 @@ export class ProductionOrderService {
             
         }catch(error){
             console.log(error.message)
+            return {
+                msg: 'Error',
+                data: error.message
+            }
         }
     }
 
