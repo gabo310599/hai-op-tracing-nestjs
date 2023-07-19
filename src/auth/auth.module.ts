@@ -19,7 +19,7 @@ import { JWT_SECRET } from '../common/config/constants';
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
         secret: config.get<string>(JWT_SECRET),
-        signOptions: { expiresIn: '1m'}
+        signOptions: { expiresIn: '30m'}
       }),
     }),
     UserModule
