@@ -47,6 +47,13 @@ export class ProcessController {
         return this.processService.deleteOne(id);
     }
 
+    //Endpoint que elimina todos los procesos asociados a un pedido.
+    @Auth()
+    @Delete('delete-request-note/:id')
+    deleteRequestProcesses( @Param('id') id: string ){
+        return this.processService.deleteRequestProcesses(id);
+    }
+
     //Endpoint que retorna cuantos procesos activos hay por departamento
     @Auth()
     @Get('/count/by-department')

@@ -174,6 +174,40 @@ export class ProcessService {
     };
   }
 
+  //Metodo que elimina todos los procesos asociados a un pedido.
+  async deleteRequestProcesses(request_id: string){
+
+    const processes = await this.processRepository.find({
+      relations:{
+        request: true,
+      }
+    })
+
+    if(!processes) throw new NotFoundException("No hay procesos en registro.")
+
+    const request_processes_list = [];
+
+    for( let i = 0; i < processes.length; i++ ){
+      if(processes[i].request.id === request_id){
+        request_processes_list.push(processes[i])
+      }
+    }
+
+    if( request_processes_list.length <= 0 ) throw new NotFoundException("No existen procesos asociados al pedido")
+    
+    const data = []
+
+    for( let i = 0; i < request_processes_list.length; i++){
+      data.push(await this.processRepository.delete(request_processes_list[i].id))
+    }
+
+    return {
+      msg: 'Peticion correcta',
+      data: data,
+    };
+
+  }
+
   //Metodo que retorna cuantos procesos activos hay por departamento
   async getProcessCountByDepartment() {
     const processes = await this.processRepository.find({
