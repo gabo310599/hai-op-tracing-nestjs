@@ -230,56 +230,76 @@ export class ProcessService {
     let cc = 0;
     let f = 0;
     let d = 0;
+    let dg_In = 0;
+    let dt_In = 0;
+    let gop_In = 0;
+    let iop_In = 0;
+    let t_In = 0;
+    let e_In = 0;
+    let c_In = 0;
+    let cc_In = 0;
+    let f_In = 0;
+    let d_In = 0;
 
     processes.map(function (process) {
       switch (process.department.name) {
         case 'Diseño Gráfico': {
           if (process.date_in && !process.date_out) dg++;
+          else if (!process.date_in && !process.date_out) dg_In++;
           break;
         }
 
         case 'Diseño Textil': {
           if (process.date_in && !process.date_out) dt++;
+          else if (!process.date_in && !process.date_out) dt_In++;
           break;
         }
 
         case 'Generar OP': {
           if (process.date_in && !process.date_out) gop++;
+          else if (!process.date_in && !process.date_out) gop_In++;
           break;
         }
 
         case 'Imprimir OP': {
           if (process.date_in && !process.date_out) iop++;
+          else if (!process.date_in && !process.date_out) iop_In++;
           break;
         }
 
         case 'Tejeduría': {
           if (process.date_in && !process.date_out) t++;
+          else if (!process.date_in && !process.date_out) t_In++;
           break;
         }
 
         case 'Enrollado': {
           if (process.date_in && !process.date_out) e++;
+          else if (!process.date_in && !process.date_out) e_In++;
           break;
         }
 
         case 'Corte': {
           if (process.date_in && !process.date_out) c++;
+          else if (!process.date_in && !process.date_out) c_In++;
           break;
         }
 
         case 'Control de Calidad': {
           if (process.date_in && !process.date_out) cc++;
+          else if (!process.date_in && !process.date_out) cc_In++;
           break;
         }
 
         case 'Facturación': {
           if (process.date_in && !process.date_out) f++;
+          else if (!process.date_in && !process.date_out) f_In++;
           break;
         }
 
         case 'Despacho': {
           if (process.date_in && !process.date_out) d++;
+          else if (!process.date_in && !process.date_out) d_In++;
           break;
         }
       }
@@ -298,6 +318,16 @@ export class ProcessService {
         CC: cc,
         F: f,
         D: d,
+        DG_In: dg_In,
+        DT_In: dt_In,
+        GOP_In: gop_In,
+        IOP_In: iop_In,
+        T_In: t_In,
+        E_In: e_In,
+        C_In: c_In,
+        CC_In: cc_In,
+        F_In: f_In,
+        D_In: d_In,
       },
     };
   }
